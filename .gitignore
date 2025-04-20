@@ -1,0 +1,21 @@
+# Ignore tout sauf les dossiers commençant par "ex"
+*
+
+# Mais ne jamais ignorer ces dossiers
+!ex*/
+
+# Dans les exXX, ne pas ignorer les fichiers
+!ex*/**
+
+# Ne pas ignorer le .gitignore lui-même
+!.gitignore
+
+# Et ignore aussi des trucs classiques
+*.o
+*.out
+*.a
+*.gch
+*.dSYM/
+.DS_Store
+.vscode/
+*.pdf
