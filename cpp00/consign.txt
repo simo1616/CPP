@@ -1,0 +1,65 @@
+Pour t’y mettre pas à pas, voici un plan d’attaque logique, sans plonger tout de suite dans le code :
+
+1. **Esquisser la structure du projet**
+
+   * Identifie d’abord clairement tes deux classes :
+
+     * `Contact` (représente une fiche)
+     * `PhoneBook` (le répertoire qui gère jusqu’à 8 fiches)
+   * Prévoyez aussi un fichier `main.cpp` pour la boucle d’interaction.
+
+2. **Définir l’interface de `Contact` (Contact.hpp)**
+
+   * Dans `Contact.hpp`, déclare les attributs privés :
+
+     * `std::string firstName;`
+     * `std::string lastName;`
+     * `std::string nickname;`
+     * `std::string phoneNumber;`
+     * `std::string darkestSecret;`
+   * Pour chaque attribut, prévois au minimum :
+
+     * un setter (ex. `void setFirstName(const std::string&);`)
+     * un getter (ex. `std::string getFirstName() const;`)
+   * Pense à un constructeur par défaut (inutile de remplir) et, si tu veux, un constructeur d’initialisation.
+
+3. **Définir l’interface de `PhoneBook` (PhoneBook.hpp)**
+
+   * Attribut privé : un tableau fixe de 8 `Contact` (ex. `Contact contacts[8];`)
+   * Un entier privé pour mémoriser le nombre de contacts ajoutés ou l’index “circulaire” de remplacement.
+   * Méthodes publiques :
+
+     * `void addContact(const Contact&);`
+     * `void displayList() const;`  // pour le tableau résumé à 4 colonnes
+     * `void displayContact(int index) const;`  // détail d’un contact donné
+   * Eventuellement des méthodes utilitaires privées (formatage de chaîne, validation d’index…).
+
+4. **Écrire `main.cpp`**
+
+   * Inclure tes deux headers.
+   * Instancier un `PhoneBook phonebook;`
+   * Entrer dans une boucle `while (true)` qui :
+
+     1. Affiche une invite « Enter command (ADD, SEARCH, EXIT) : »
+     2. Lit une ligne de `std::cin`
+     3. Selon la commande :
+
+        * `ADD` → créer un `Contact temp;` → appeler successivement tous les setters en demandant à l’utilisateur ses données → `phonebook.addContact(temp);`
+        * `SEARCH` → `phonebook.displayList();` puis lire un index et `phonebook.displayContact(idx);`
+        * `EXIT` → sortir de la boucle (et `return 0;`)
+        * autre → ignorer et re-boucler
+
+5. **Valider et tester progressivement**
+
+   * D’abord : compiler un `main.cpp` vide + headers vides pour t’assurer que le Makefile fonctionne.
+   * Puis : implémenter et tester la classe `Contact` seule (tu peux écrire un mini-main qui crée un contact, fixe/affiche ses champs).
+   * Ensuite : avancer sur `PhoneBook` en simulant l’ajout et l’affichage de quelques `Contact`.
+   * Enfin : compléter la boucle de `main.cpp` et tester le comportement global.
+
+En résumé :
+
+* **Contact.hpp/cpp** : définition et gestion des données d’un contact
+* **PhoneBook.hpp/cpp** : logique d’ajout, de remplacement circulaire et d’affichage
+* **main.cpp** : interface utilisateur (ADD, SEARCH, EXIT)
+
+Cette démarche t’évite de te disperser : tu construis d’abord les briques élémentaires, puis tu les relies ensemble. Bon courage !
