@@ -1,0 +1,67 @@
+ADD
+  C1  
+  L1
+N1  
+ P1
+D1  
+ADD
+C2  
+  L2
+  N2  
+P2  
+  D2
+ADD
+  C3
+L3  
+ N3 
+  P3  
+D3
+ADD
+C4
+  L4  
+N4  
+ P4
+  D4  
+ADD
+  C5  
+L5  
+  N5
+P5  
+D5  
+ADD
+C6  
+  L6
+ N6  
+  P6  
+D6
+ADD
+  C7
+L7  
+  N7  
+P7  
+  D7
+ADD
+C8  
+  L8
+ N8  
+P8  
+D8  
+ADD
+  C9  
+L9  
+  N9  
+P9  
+D9
+ADD
+                    
+       
+         
+P10  
+                   
+
+
+SEARCH
+0
+SEARCH
+7
+EXIT
