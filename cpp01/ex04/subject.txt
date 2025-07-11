@@ -1,0 +1,55 @@
+**Chapitre VII**
+**Exercice 04 : Sed is for losers**
+**Exercice :** 04
+**Répertoire de rendu :** ex04/
+**Fichiers à rendre :** Makefile, main.cpp, 
+tous les `*.cpp` et `*.h/.hpp`
+**Fonctions interdites :** `std::string::replace`
+
+1. **Usage**
+
+   * Le programme prend **trois** arguments sur 
+   la ligne de commande, dans cet ordre :
+
+     1. un **nom de fichier**
+     2. une **chaîne s1**
+     3. une **chaîne s2**
+
+2. **Fonctionnalité**
+
+   * Ouvrir le fichier **`<filename>`** en lecture.
+   * Créer un nouveau fichier nommé **
+   `<filename>.replace`** en écriture.
+   * Copier le contenu de l’ancien fichier vers le nouveau, mais **en 
+   remplaçant chaque occurrence** de **s1** par **s2**.
+
+3. **Contraintes**
+
+   * **Interdit** d’utiliser les fonctions de manipulation 
+   de fichiers en C (`fopen`, `fread`, `fwrite`, etc.).
+   * **Tous** les membres de `std::string` 
+   sont autorisés, **sauf** la méthode `replace`.
+
+4. **Robustesse**
+
+   * Gérer **correctement** les cas d’erreur :
+
+     * nombre d’arguments incorrect
+     * fichier introuvable ou illisible
+     * impossibilité de créer le fichier de sortie
+   * Votre programme doit afficher un message d’erreur 
+   explicite et quitter proprement.
+
+5. **Tests**
+
+   * Écrivez vos propres scénarios de test pour couvrir au minimum :
+
+     * remplacement d’une chaîne existante plusieurs fois
+     * remplacement quand s1 et s2 ont des longueurs différentes
+     * aucun remplacement si s1 n’apparaît pas
+     * gestion d’un fichier vide
+     * paramètres manquants ou fichier inexistant
+
+Voilà : vous devez réaliser un petit utilitaire de 
+type “sed”, **sans** utiliser `std::string::replace`, 
+et démontrer par vos tests qu’il gère tous les cas !
