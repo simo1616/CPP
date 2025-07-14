@@ -6,7 +6,7 @@
 #    By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/12 20:48:06 by mbendidi          #+#    #+#              #
-#    Updated: 2025/07/14 07:37:10 by mbendidi         ###   ########.fr        #
+#    Updated: 2025/07/14 12:54:31 by mbendidi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 DBGFLAGS = -g -std=c++98
 
-SRCS = main.cpp Fixed.cpp
+SRCS = main.cpp Fixed.cpp Point.cpp bsp.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
