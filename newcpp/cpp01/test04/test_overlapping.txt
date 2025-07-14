@@ -1,0 +1,5 @@
+aaaa
+aaaaaa
+aaabaaacaaa
+This tests overlapping patterns like aaaa in aaaaaaaa
+

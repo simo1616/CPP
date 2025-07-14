@@ -1,0 +1,6 @@
+Hello world!
+This is a test file.
+Hello again, world!
+Some text without the target string.
+Hello world one more time!
+
