@@ -1,39 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Harl.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 16:21:19 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/12 19:28:59 by mbendidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HARL_HPP
 #define HARL_HPP
 
 #include <iostream>
-#include <string>
 
-#define CLR_RESET   	"\033[0m"
-#define CLR_RED     	"\033[31m"
-#define CLR_GREEN   	"\033[32m"
-#define CLR_YELLOW  	"\033[33m"
-#define CLR_BLUE    	"\033[34m"
-#define CLR_MAGENTA 	"\033[35m"
-#define CLR_CYAN    	"\033[36m"
+#define ORANGE		"\033[38;5;208m"
+#define LI_ORANGE	"\033[38;5;214m"
+#define GOLD		"\033[38;5;220m"
+#define SALMON		"\033[38;5;209m"
+#define DARK_ORANGE	"\033[38;5;166m"
+#define CORAL		"\033[38;5;203m"
+#define PEACH_PUFF	"\033[38;5;224m"
+#define GREEN		"\033[0;92m"
+#define YELLOW		"\033[0;93m"
+#define BLUE		"\033[0;94m"
+#define MAGENTA		"\033[0;95m"
+#define CYAN		"\033[0;96m"
+#define RESET		"\033[0m"
 
-#define HARL_DEBUG   	CLR_CYAN	"[DEBUG]\nI love having extra bacon for my 7XL-double-cheese-triple-pickle-special-ketchup burger. I really do!"
-#define HARL_INFO    	CLR_GREEN	"[INFO]\nI cannot believe adding extra bacon costs more money. You didn’t put enough bacon in my burger! If you did, I wouldn’t be asking for more!"
-#define HARL_WARNING 	CLR_YELLOW	"[WARNING]\nI think I deserve to have some extra bacon for free. I’ve been coming for years, whereas you started working here just last month."
-#define HARL_ERROR   	CLR_RED		"[ERROR]\nThis is unacceptable! I want to speak to the manager now."
-#define HARL_UNKNOWN 	CLR_MAGENTA	"[ Probably complaining about insignificant problems ]\n" \
-                					"Although there are several ways to deal with Harl, " \
-                					"one of the most effective is to SWITCH it off."
-#define USAGE_MSG  					"Usage: ./harlFilter <LEVEL>\n" \
-                    				"LEVEL must be one of DEBUG, INFO, WARNING or ERROR"
+#define DEBUG   GREEN   	"[DEBUG]	\tChecking system state…"								RESET
+#define INFO    YELLOW  	"[INFO]		Everything is running smoothly."					RESET
+#define WARNING PEACH_PUFF 	"[WARNING]	That might cause problems soon."					RESET
+#define ERROR   DARK_ORANGE "[ERROR]	\tCritical failure – aborting now!"					RESET
 
+#define ERR_ARG	GOLD 		"[Error]	\tusage: ./harl <LEVEL>"								RESET
+#define UNKNOW	GOLD 		"[UNKNOW]	Probably complaining about insignificant problems"	RESET
 
-class Harl		{
-	public:
-		void complain(const std::string& level);
-		
+enum levnum {
+	DEB,
+	INF,
+	WAR,
+	ERR
+};
+
+class Harl
+{
 	private:
-		void debug(void) const;
-		void info(void) const;
-		void warning(void) const;
-		void error(void) const;
-		typedef void (Harl::*HarlFunct)(void) const;
-
+		void debug( void );
+		void info( void );
+		void warning( void );
+		void error( void );
+		typedef void (Harl::*funct)(void);
+		static const std::string levels[4];
+		static const funct actions[4];
+	public:
+		void complain( std::string level );
 };
 
 #endif

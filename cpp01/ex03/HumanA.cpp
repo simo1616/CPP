@@ -5,20 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 10:25:29 by mbendidi          #+#    #+#             */
-/*   Updated: 2025/06/23 10:25:31 by mbendidi         ###   ########.fr       */
+/*   Created: 2025/07/12 07:35:46 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/12 08:10:33 by mbendidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HumanA.hpp"
 
-HumanA::HumanA(std::string const& name, Weapon& Weapon) 
-	:_name(name), _weapon(Weapon) {}
+HumanA::HumanA(std::string name, Weapon &w) :name(name), _weapon(w) {
+	
+}
 
-HumanA::~HumanA(){}
-
-void HumanA::attack() const {
-	std::cout 
-			<< _name << " attacks with their " 
-			<<  _weapon.getType() << std::endl;
+void HumanA::attack() {
+	std::cout 	<< name << " attacks with their "
+				<< _weapon.getType() << std::endl;
 }

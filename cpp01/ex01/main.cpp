@@ -1,39 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/11 16:21:42 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/11 19:52:24 by mbendidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Zombie.hpp"
-#include <iostream>
 
-void testHorde(int N, const std::string& name) {
-    std::cout << "\n=== Test N = " << N << " ===\n";
-    Zombie* h = zombieHorde(N, name);
-    if (!h) {
-        std::cout << "-> returned NULL\n";
-    } else {
-        for (int i = 0; i < N; ++i)
-            h[i].announce();
-        delete[] h;
-    }
+Zombie* zombieHorde(int N, std::string name);
+
+int main ()
+{
+	int N = 5;
+	std::string name = "Foo";
+	Zombie *Z = zombieHorde(N, name);
+	for(int i = 0; i < N; i++)
+	{
+		Z[i].announce();
+	}
+	delete[](Z);
+	return(0);
 }
-
-int main() {
-    testHorde(0,    "Nobody");
-    testHorde(-3,   "Ghost");
-    testHorde(1,    "Solo");
-    testHorde(5,    "Pack");
-    testHorde(12,   "Horde");
-
-    return 0;
-}
-
-
-// int main(void)
-// {
-// 	int N = 12;
-// 	Zombie *z = zombieHorde(N, "Marc");
-// 	if(z)
-// 	{
-// 		for(int i = 0; i < N; ++i) {
-// 			z[i].announce();
-// 		}
-// 		delete [] z;
-// 	}
-// 	return(0);
-// }

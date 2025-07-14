@@ -5,19 +5,19 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/20 12:40:52 by mbendidi          #+#    #+#              #
-#    Updated: 2025/06/23 10:54:20 by mbendidi         ###   ########.fr        #
+#    Created: 2025/07/11 16:30:51 by mbendidi          #+#    #+#              #
+#    Updated: 2025/07/12 07:30:46 by mbendidi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Weapon
+
+NAME = violence
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 DBGFLAGS = -g -std=c++98
 
-SRCS = main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
-
+SRCS = main.cpp HumanA.cpp HumanB.cpp Weapon.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
@@ -39,5 +39,4 @@ debug:
 valgrind: debug
 	valgrind ./$(NAME)
 
-.PHONY: all clean fclean re
-.SILENT:
+.PHONY: all clean fclean re debug valgrind

@@ -1,22 +1,28 @@
-# ifndef ZOMBIE_HPP
-# define ZOMBIE_HPP
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/11 16:22:18 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/11 16:33:28 by mbendidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef ZOMBIE_HPP
+#define ZOMBIE_HPP
 
 #include <iostream>
-#include <cstring>
 
-class Zombie {
-	public:
-		Zombie(std::string Name);
-		~Zombie();
-		//void setName(std::string Name);
-		void announce() const;
-
+class Zombie
+{
 	private:
-		std::string	_name;
+		std::string name;
+	public:
+		Zombie(std::string input);
+		~Zombie();
+		void announce(void);
 };
 
-Zombie* newZombie(std::string Name);
-void	randomChump(std::string Name);
-
-
-# endif
+#endif

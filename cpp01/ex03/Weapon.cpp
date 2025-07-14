@@ -5,21 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 10:24:54 by mbendidi          #+#    #+#             */
-/*   Updated: 2025/06/23 10:25:07 by mbendidi         ###   ########.fr       */
+/*   Created: 2025/07/12 07:22:46 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/12 07:28:14 by mbendidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Weapon.hpp"
 
-Weapon::Weapon(std::string const & t) :type(t) {}
+Weapon::Weapon(std::string t) :type(t) {}
 
-Weapon::~Weapon() {}
-
-std::string const &  Weapon::getType() const {
+std::string&	Weapon::getType() {
 	return(this->type);
 }
 
-void Weapon::setType(std::string const & newType) {
-	type = newType;
-} 
+
+void			Weapon::setType(std::string type) {
+	this->type = type;
+}

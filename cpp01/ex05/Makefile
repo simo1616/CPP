@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/11 16:30:51 by mbendidi          #+#    #+#              #
+#    Updated: 2025/07/12 16:39:44 by mbendidi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 
 NAME = harl
 
@@ -6,7 +18,6 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 DBGFLAGS = -g -std=c++98
 
 SRCS = main.cpp Harl.cpp
-
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
@@ -28,5 +39,4 @@ debug:
 valgrind: debug
 	valgrind ./$(NAME)
 
-.PHONY: all clean fclean re
-.SILENT:
+.PHONY: all clean fclean re debug valgrind

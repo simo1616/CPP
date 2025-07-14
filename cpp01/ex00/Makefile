@@ -5,12 +5,13 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/20 12:40:52 by mbendidi          #+#    #+#              #
-#    Updated: 2025/06/25 10:22:01 by mbendidi         ###   ########.fr        #
+#    Created: 2025/07/11 16:30:51 by mbendidi          #+#    #+#              #
+#    Updated: 2025/07/11 16:50:08 by mbendidi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Zombie
+
+NAME = zombie
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
@@ -39,5 +40,4 @@ debug:
 valgrind: debug
 	valgrind ./$(NAME)
 
-.PHONY: all clean fclean re
-.SILENT:
+.PHONY: all clean fclean re debug valgrind

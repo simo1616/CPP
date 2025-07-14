@@ -5,27 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 10:23:42 by mbendidi          #+#    #+#             */
-/*   Updated: 2025/06/23 10:23:44 by mbendidi         ###   ########.fr       */
+/*   Created: 2025/07/12 08:15:28 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/12 08:45:38 by mbendidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HUMANB_HPP
 #define HUMANB_HPP
 
-#include "Weapon.hpp"
 #include "HumanA.hpp"
 
-class HumanB {
-	public :
-		HumanB(std::string const& name);
-		~HumanB();
-		void attack() const;
-		void setWeapon(Weapon& weapon);
-
-	private :
-		std::string _name;
-		Weapon* _weap;
+class HumanB
+{
+	private:
+		std::string name;
+		Weapon *weapon;
+	public:
+		HumanB(std::string name);
+		void setWeapon(Weapon &w);
+		void attack();
 };
 
-#endif 
+
+#endif

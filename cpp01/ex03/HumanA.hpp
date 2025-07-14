@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 10:25:02 by mbendidi          #+#    #+#             */
-/*   Updated: 2025/06/23 10:25:03 by mbendidi         ###   ########.fr       */
+/*   Created: 2025/07/12 07:33:44 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/12 08:15:02 by mbendidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 #include "Weapon.hpp"
 
-class HumanA {
-	public :
-		HumanA(std::string const& name, Weapon& Weapon);
-		~HumanA();
-		void attack() const;
-
-	private :
-		std::string _name;
+class HumanA
+{
+	private:
+		std::string name;
 		Weapon& _weapon;
+	public:
+		HumanA(std::string name, Weapon &w);
+		void attack();
 };
+
 
 #endif

@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/11 16:21:42 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/11 16:49:38 by mbendidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Zombie.hpp"
 
-int main(void)
+Zombie* newZombie(std::string name);
+void randomChump(std::string name);
+
+int main ()
 {
-	Zombie *heapZ = newZombie("Heapy");
-	heapZ->announce();
-	delete heapZ;
-	randomChump("Chumpy");
-	return(0);
+	Zombie *Z = newZombie("simo");
+	Z->announce();
+	delete(Z);
+	randomChump("Foo");
 }

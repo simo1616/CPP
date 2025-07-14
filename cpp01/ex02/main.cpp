@@ -1,23 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/11 16:21:42 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/12 07:52:47 by mbendidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
+#include <string>
 
-
-int main ()
+int main() 
 {
-	std::string var = "HI THIS IS BRAIN";
-	std::string* stringPTR = &var;
-	std::string& stringREF = var;
+	std::string		var			= "HI THIS IS BRAIN";
+	std::string*	stringPTR	= &var;
+	std::string&	stringREF	= var;
 
-	std::cout << "Adresses :" 				<< std::endl;
+	std::cout
+		<< "Memory address of string variable	: "		<<	&var		<< '\n'
+		<< "Memory address held by stringPTR	: "		<<	stringPTR	<< '\n'
+		<< "Memory address held by stringREF	: "		<<	&stringREF	<< "\n\n";
 
-	std::cout << "Adresse of var		: "	<< &var << std::endl;
-	std::cout << "Adresse of stringPTR	: "	<< stringPTR << std::endl;
-	std::cout << "Adresse of stringREF	: "	<< &stringREF << std::endl;
+	std::cout
+		<< "Value of string variable		: "			<<	var			<< '\n'
+		<< "Value pointed to by stringPTR		: "		<<	*stringPTR	<< '\n'
+		<< "Value pointed to by stringREF		: "		<<	stringREF	<< '\n';
 
-	std::cout << "Values :" 				<< std::endl;
+	return (0);
+}
 
-	std::cout << "Value of var		: "		<< var << std::endl;
-	std::cout << "Value of stringPTR	: "	<< *stringPTR << std::endl;
-	std::cout << "Value of stringREF	: "	<< stringREF << std::endl;
-	return 0;
-
-}	

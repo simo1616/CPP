@@ -1,21 +1,29 @@
-NAME    = phonebook
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/04/20 11:24:10 by mbendidi          #+#    #+#              #
+#    Updated: 2025/06/20 10:14:14 by mbendidi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CXX     = c++
-CXXFLAGS= -std=c++98 -Wall -Werror -Wextra
+NAME = phonebook
 
-SRCS    = main.cpp \
-          PhoneBook.cpp \
-          Contact.cpp
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+DBGFLAGS = -g -std=c++98
 
-OBJS    = $(SRCS:.cpp=.o)
+SRCS = main.cpp PhoneBook.cpp Contact.cpp
+
+OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
@@ -25,4 +33,10 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+debug:
+	$(CXX) $(DBGFLAGS) $(SRCS) -o $(NAME)
+
+valgrind: debug
+	valgrind ./$(NAME)
+
+.PHONY: all clean fclean re debug valgrind

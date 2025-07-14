@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbendidi <mbendidi@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 10:25:16 by mbendidi          #+#    #+#             */
-/*   Updated: 2025/06/23 10:25:18 by mbendidi         ###   ########.fr       */
+/*   Created: 2025/07/12 07:18:37 by mbendidi          #+#    #+#             */
+/*   Updated: 2025/07/12 07:28:10 by mbendidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,18 @@
 #define WEAPON_HPP
 
 #include <iostream>
-#include <string> 
+#include <string>
 
-
-class Weapon {
-	public :
-		Weapon(std::string const & t);
-		~Weapon();
-		std::string const & getType() const;
-		void setType(std::string const & newType);
-
-
-	private :
+class Weapon
+{
+	private:
 		std::string type;
+	public:
+		Weapon(std::string t);
+		std::string&	getType();
+		void setType(std::string type);
+
 };
 
 
-
-
-#endif 
+#endif
