@@ -1,0 +1,41 @@
+Chapitre VI
+Exercice 03 : Maintenant c’est bizarre !
+
+**Dossier de rendu :** ex03/
+**Fichiers à rendre :** tous les fichiers des exercices précédents + DiamondTrap.{h, hpp}, DiamondTrap.cpp
+**Fonctions interdites :** Aucune
+
+Dans cet exercice, vous allez créer un monstre : un ClapTrap mi-FragTrap, mi-ScavTrap. Il s’appellera **DiamondTrap** et héritera **à la fois** de **FragTrap** et de **ScavTrap**. Attention, ça devient risqué !
+
+La classe **DiamondTrap** aura un attribut privé `name`. Cet attribut doit porter **exactement** le même nom de variable que dans la classe de base **ClapTrap** (sans faire référence au nom du robot).
+
+* Si ClapTrap utilise `name`, DiamondTrap utilisera **aussi** `name`.
+* Si ClapTrap utilise `_name`, DiamondTrap utilisera **aussi** `_name`.
+
+Les attributs et méthodes membres de ses classes parentes seront hérités :
+
+* **Name**, passé en paramètre au constructeur
+* **ClapTrap::name** (le constructeur de DiamondTrap ajoute le suffixe `"_clap_name"`)
+* **Hit points** (hérités de FragTrap : 100)
+* **Energy points** (hérités de ScavTrap : 50)
+* **Attack damage** (hérités de FragTrap : 30)
+* **attack()** (hérité de ScavTrap)
+
+En plus des fonctions spéciales héritées, DiamondTrap disposera de sa propre capacité :
+
+```cpp
+void whoAmI();
+```
+
+Cette méthode affichera à la fois son **name** et son **ClapTrap::name**.
+
+Attention, l’instance **ClapTrap** interne à DiamondTrap doit être créée **une seule fois**. Il y a un petit piège !
+
+N’oubliez pas d’ajouter dans votre `main()` des tests pour :
+
+* vérifier la bonne hiérarchie (construction/destruction) ;
+* tester la méthode `whoAmI()` ;
+* utiliser tous les comportements hérités (attaquer, encaisser des dégâts, se réparer) avec les bonnes valeurs ;
+* couvrir les cas limites (énergie à 0, PV à 0, etc.).
+
+**Astuce** : essayez les options du compilateur `-Wshadow` et `-Wno-shadow` pour détecter les variables masquées.
