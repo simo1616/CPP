@@ -1,11 +1,10 @@
-NAME = abstrait
+NAME = interface
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wshadow -Wno-shadow -std=c++98
 DBGFLAGS = -g -std=c++98
 
-SRCS = main.cpp AAnimal.cpp Dog.cpp Cat.cpp \
-	Brain.cpp
+SRCS = main.cpp AMateria.cpp #Ice.cpp Cure.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -1,0 +1,164 @@
+# Exercice 03 : Interfaces & Récapitulatif
+
+**Dossier de rendu** : `ex03/`
+**Fichiers à rendre** : `Makefile`, `main.cpp`, tous vos `.cpp` et `.hpp`
+**Fonctions interdites** : aucune
+
+---
+
+## 1. Objectif
+
+Implémenter un petit système de **Matérias** à la manière de Final Fantasy :
+
+* **AMateria** est une interface (classe purement abstraite).
+* Vous en dérivez deux concrètes : `Ice` et `Cure`.
+* Vous créez un inventaire de Materias, capable d’apprendre et de produire de nouvelles Matérias à la demande.
+* Vous implémentez un `Character` qui peut s’équiper et utiliser ces Matérias sur un autre personnage.
+
+---
+
+## 2. Classe AMateria
+
+```cpp
+class AMateria {
+protected:
+    std::string type;
+
+public:
+    AMateria(std::string const & type);
+    virtual ~AMateria();
+
+    std::string const & getType() const;
+    virtual AMateria*   clone() const = 0;
+    virtual void        use(ICharacter& target);
+};
+```
+
+1. **Constructeur** : prend un `type` (“ice” ou “cure”).
+2. **getType()** : renvoie ce `type`.
+3. **clone()** : méthode purement abstraite ; chaque Materia concrète retournera un **nouvel objet** de la même classe.
+4. **use(ICharacter&)** : méthode virtuelle (avec un corps par défaut si vous voulez) ; sera redéfinie dans `Ice` et `Cure`.
+
+---
+
+## 3. Les Matérias Concrètes
+
+### Ice
+
+* Hérite de `AMateria`.
+* Type : `"ice"`.
+* **clone()** : `return new Ice(*this);`
+* **use(target)** : affiche
+
+  ```
+  * shoots an ice bolt at <name> *
+  ```
+
+### Cure
+
+* Hérite de `AMateria`.
+* Type : `"cure"`.
+* **clone()** : `return new Cure(*this);`
+* **use(target)** : affiche
+
+  ```
+  * heals <name>'s wounds *
+  ```
+
+---
+
+## 4. Interface ICharacter et classe Character
+
+```cpp
+class ICharacter {
+public:
+    virtual ~ICharacter() {}
+    virtual std::string const & getName() const = 0;
+    virtual void equip(AMateria* m) = 0;
+    virtual void unequip(int idx) = 0;
+    virtual void use(int idx, ICharacter& target) = 0;
+};
+```
+
+**Character** doit :
+
+* Stocker un nom (fourni au constructeur).
+* Gérer un inventaire de **4 pointeurs** `AMateria*`, initialement tous à `nullptr`.
+* **equip(m)** : place `m` dans le premier emplacement libre (0→3). Ignorer si inventaire plein.
+* **unequip(idx)** : met l’emplacement `idx` à `nullptr` sans supprimer la Materia.
+* **use(idx, target)** : si `inventaire[idx]` est non nul, appelle sa `use(target)`.
+* **Copie profonde** : constructeur de copie et opérateur= dupliquent chaque Materia via `clone()`.
+* **Destructeur** : détruit toutes les Materias encore équipées.
+
+---
+
+## 5. Interface IMateriaSource et classe MateriaSource
+
+```cpp
+class IMateriaSource {
+public:
+    virtual ~IMateriaSource() {}
+    virtual void learnMateria(AMateria* m) = 0;
+    virtual AMateria* createMateria(std::string const & type) = 0;
+};
+```
+
+**MateriaSource** doit :
+
+* Stocker jusqu’à 4 “modèles” de Materia acquis via `learnMateria(m)` (copie éventuelle si vous préférez).
+* **createMateria(type)** : retourne `clone()` du modèle dont le `getType()` correspond à `type`, ou `nullptr` si introuvable.
+* **Copie profonde** et **destructeur** qui libèrent correctement la mémoire.
+
+---
+
+## 6. Scénario de test recommandé
+
+Dans votre `main.cpp`, faites par exemple :
+
+```cpp
+IMateriaSource* src = new MateriaSource();
+src->learnMateria(new Ice());
+src->learnMateria(new Cure());
+
+ICharacter* alice = new Character("Alice");
+AMateria* tmp;
+
+// équiper Alice
+tmp = src->createMateria("ice");
+alice->equip(tmp);
+tmp = src->createMateria("cure");
+alice->equip(tmp);
+
+// cible Bob
+ICharacter* bob = new Character("Bob");
+
+// utilisation
+alice->use(0, *bob);  // * shoots an ice bolt at Bob *
+alice->use(1, *bob);  // * heals Bob's wounds *
+
+// nettoyage
+delete bob;
+delete alice;
+delete src;
+```
+
+Vous devez voir exactement :
+
+```
+* shoots an ice bolt at Bob *
+* heals Bob's wounds *
+```
+
+---
+
+## 7. Points de vigilance
+
+* **Pas de fuite mémoire** : chaque `new` doit correspondre à un `delete`.
+* **Copie profonde** de vos inventaires et sources de Materias.
+* **Tests complémentaires** :
+
+  * inventaire plein, `use()` hors limites, `unequip()` sans Materia, etc.
+  * créez plusieurs personnages et plusieurs sources pour valider la robustesse.
+* **Compilation standard C++98** (option `-std=c++98`) sans warnings (`-Wall -Wextra -Werror`).
+
+Bonne implémentation !
