@@ -1,57 +1,55 @@
 #include "AMateria.hpp"
 #include "Ice.hpp"
 #include "Cure.hpp"
-#include <iostream>
+#include "IMateriaSource.hpp"
+#include "MateriaSource.hpp"
+#include "ICharacter.hpp"
+#include "Character.hpp"
 
 int main() {
-    std::cout << "=== AMateria / Ice / Cure Test ===\n\n";
+	std::cout << "\n=== Materia Source & Learning ===\n";
+	IMateriaSource* src = new MateriaSource();
+	src->learnMateria(new Ice());
+	src->learnMateria(new Cure());
+	src->learnMateria(new Ice());
+	src->learnMateria(new Cure());
 
-    // On travaille toujours via des pointeurs vers la classe de base
-    AMateria* mat1 = new Ice();           // Default ice
-    AMateria* mat2 = new Cure("cure");    // Arg cure
+	std::cout << "\n=== Character Creation & Equipping ===\n";
+	Character* leo = new Character("Leo");
+	AMateria* m;
+	m = src->createMateria("ice");
+	leo->equip(m);
+	m = src->createMateria("cure");
+	leo->equip(m);
 
-    std::cout << "-- Types des instances créées --\n";
-    std::cout << "mat1 type: " << mat1->getType() << "\n";
-    std::cout << "mat2 type: " << mat2->getType() << "\n\n";
+	std::cout << "\n=== Battle Simulation ===\n";
+	ICharacter* goblin = new Character("Goblin");
+	leo->use(0, *goblin);
+	leo->use(1, *goblin);
 
-    std::cout << "-- Test de clone() --\n";
-    AMateria* clone1 = mat1->clone();
-    AMateria* clone2 = mat2->clone();
-    std::cout << "clone1 type: " << clone1->getType() << "\n";
-    std::cout << "clone2 type: " << clone2->getType() << "\n\n";
+	std::cout << "\n=== Unequip & Reuse ===\n";
+	AMateria* materiaToDelete = leo->tab[0];
+	
+	leo->unequip(0);
+	leo->use(0, *goblin);
+	
+	m = src->createMateria("ice");
+	leo->equip(m);
+	leo->use(0, *goblin);
 
-    // Nettoyage
-    delete mat1;
-    delete mat2;
-    delete clone1;
-    delete clone2;
+	std::cout << "\n=== Copy & Independence Test ===\n";
+	Character* leoClone = new Character(*leo);  // Plus simple aussi
+	leoClone->use(0, *goblin);
+	leoClone->use(1, *goblin);
 
-    std::cout << "Test terminé sans fuite mémoire.\n";
-    return 0;
+	std::cout << "\n=== Cleanup ===\n";
+	delete materiaToDelete;
+	
+	delete goblin;
+	delete leoClone;
+	delete leo;
+	delete src;
+
+	return 0;
 }
 
-
-
-
-
-
-
-// int main()
-// {
-//     IMateriaSource* src = new MateriaSource();
-//     src->learnMateria(new Ice());
-//     src->learnMateria(new Cure());
-//     ICharacter* me = new Character("me");
-//     AMateria* tmp;
-//     tmp = src->createMateria("ice");
-//     me->equip(tmp);
-//     tmp = src->createMateria("cure");
-//     me->equip(tmp);
-//     ICharacter* bob = new Character("bob");
-//     me->use(0, *bob);
-//     me->use(1, *bob);
-//     delete bob;
-//     delete me;
-//     delete src;
-//     return 0;
-// }

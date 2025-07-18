@@ -1,15 +1,13 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
-#include <iostream>
 #include <cstring>
-#include "AMateria.hpp"
 #include "ICharacter.hpp"
+#include "AMateria.hpp"
 
 class Character :public ICharacter {
 	private:
 		std::string name;
-		AMateria* tab[4];
 
 	public:
 		Character();
@@ -21,6 +19,7 @@ class Character :public ICharacter {
 		void unequip(int idx);
 		void use(int idx, ICharacter& target);
 		~Character();
+		AMateria* tab[4];
 };
 
 #endif

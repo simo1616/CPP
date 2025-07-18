@@ -3,8 +3,7 @@
 
 #include <iostream>
 #include <cstring>
-#include "Character.hpp"
-
+#include "ICharacter.hpp"
 
 class AMateria {
 	protected:

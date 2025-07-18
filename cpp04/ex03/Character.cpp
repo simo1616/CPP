@@ -8,14 +8,14 @@ Character::Character() :name("") {
 
 Character::Character(std::string const& name) 
 : name(name) {
-	std::memset(tab, 0, sizeof(tab))
+	std::memset(tab, 0, sizeof(tab));
 	 std::cout   << "Character Arg construtor called name :"
 				<< name << std::endl;
 }
 
 Character::Character(Character const& other) 
 :name(other.name) {
-	for(int i = 0; i > 4; i++) {
+	for(int i = 0; i < 4; i++) {
 		if(other.tab[i])
 			tab[i] = other.tab[i]->clone();
 		else

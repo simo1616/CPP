@@ -2,9 +2,6 @@
 #define CURE_HPP
 
 #include "AMateria.hpp"
-#include <iostream>
-//#include "ICharacter.hpp"
-
 
 class Cure :public AMateria {
 	private:
