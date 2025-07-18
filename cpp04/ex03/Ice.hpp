@@ -6,8 +6,7 @@
 
 
 class Ice :public AMateria {
-	protected:
-		std::string type;
+	private:
 
 	public:
 		Ice();
@@ -16,7 +15,7 @@ class Ice :public AMateria {
 		Ice& operator=(Ice const& other);
 		std::string const & getType() const; //Returns the materia type
 		AMateria* clone() const;
-		//virtual void use(ICharacter& target);
+		void use(ICharacter& target);
 		~Ice();
 };
 

@@ -1,23 +1,36 @@
-#include "Cure.hpp"
-#include "Ice.hpp"
 #include "AMateria.hpp"
+#include "Ice.hpp"
+#include "Cure.hpp"
+#include <iostream>
 
+int main() {
+    std::cout << "=== AMateria / Ice / Cure Test ===\n\n";
 
-int main ()
-{
-    AMateria am("ICE");
+    // On travaille toujours via des pointeurs vers la classe de base
+    AMateria* mat1 = new Ice();           // Default ice
+    AMateria* mat2 = new Cure("cure");    // Arg cure
 
-    std::cout << am.getType() << std::endl;
+    std::cout << "-- Types des instances créées --\n";
+    std::cout << "mat1 type: " << mat1->getType() << "\n";
+    std::cout << "mat2 type: " << mat2->getType() << "\n\n";
 
-    AMateria ma;
+    std::cout << "-- Test de clone() --\n";
+    AMateria* clone1 = mat1->clone();
+    AMateria* clone2 = mat2->clone();
+    std::cout << "clone1 type: " << clone1->getType() << "\n";
+    std::cout << "clone2 type: " << clone2->getType() << "\n\n";
 
-    ma = am;
+    // Nettoyage
+    delete mat1;
+    delete mat2;
+    delete clone1;
+    delete clone2;
 
-    AMateria Pa(ma);
-
-    std::cout << Pa.getType() << std::endl;
-
+    std::cout << "Test terminé sans fuite mémoire.\n";
+    return 0;
 }
+
+
 
 
 

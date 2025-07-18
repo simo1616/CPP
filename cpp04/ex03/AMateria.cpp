@@ -25,9 +25,9 @@ std::string const& AMateria::getType() const { //Returns the materia type
 	return(this->type);
 }
 
-// void AMateria::use(ICharacter& target) {
-
-// }
+void AMateria::use(ICharacter& target) {
+	std::cout << " uses unknown materia on " << target.getName() << std::endl;
+}
 
 AMateria::~AMateria() {
 	std::cout   << "Defaut Destrutor called type :"

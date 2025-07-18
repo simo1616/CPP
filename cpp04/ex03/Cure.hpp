@@ -2,12 +2,12 @@
 #define CURE_HPP
 
 #include "AMateria.hpp"
+#include <iostream>
 //#include "ICharacter.hpp"
 
 
 class Cure :public AMateria {
-	protected:
-		std::string type;
+	private:
 
 	public:
 		Cure();
@@ -16,7 +16,7 @@ class Cure :public AMateria {
 		Cure& operator=(Cure const& other);
 		std::string const & getType() const; //Returns the materia type
 		AMateria* clone() const;
-		//virtual void use(ICharacter& target);
+		void use(ICharacter& target);
 		~Cure();
 };
 

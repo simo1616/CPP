@@ -4,7 +4,7 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wshadow -Wno-shadow -std=c++98
 DBGFLAGS = -g -std=c++98
 
-SRCS = main.cpp AMateria.cpp #Ice.cpp Cure.cpp
+SRCS = main.cpp AMateria.cpp Ice.cpp Cure.cpp Character.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
