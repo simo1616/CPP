@@ -162,3 +162,74 @@ Vous devez voir exactement :
 * **Compilation standard C++98** (option `-std=c++98`) sans warnings (`-Wall -Wextra -Werror`).
 
 Bonne implémentation !
+
+
+                       +-----------------+
+                       | <<interface>>   |
+                       |    AMateria     |
+                       +-----------------+
+                       | - type: string  |
+                       +-----------------+
+                       | + getType()     |
+                       | + use(target)   |
+                       | + clone() = 0   |
+                       +-----------------+
+                        ^             ^
+                        |             |
+        +---------------+             +---------------+
+        |                                     |
++---------------+                    +---------------+
+|     Ice       |                    |     Cure      |
++---------------+                    +---------------+
+|               |                    |               |
++---------------+                    +---------------+
+| + clone()     |                    | + clone()     |
+| + use(target) |                    | + use(target) |
++---------------+                    +---------------+
+
+
+
+
+                       +-----------------+
+                       | <<interface>>   |
+                       |   ICharacter    |
+                       +-----------------+
+                       | + getName()     |
+                       | + equip(m)      |
+                       | + unequip(idx)  |
+                       | + use(idx,tgt)  |
+                       +-----------------+
+                               ^
+                               |
+                       +-----------------+
+                       |   Character     |
+                       +-----------------+
+                       | - name: string  |
+                       | - inventory[4]  |───«AMateria*»
+                       +-----------------+
+                       | + equip(m)      |
+                       | + unequip(idx)  |
+                       | + use(idx,tgt)  |
+                       | + getName()     |
+                       +-----------------+
+
+
+
+
+                       +--------------------+
+                       | <<interface>>      |
+                       |  IMateriaSource    |
+                       +--------------------+
+                       | + learnMateria(m)  |
+                       | + createMateria(t) |
+                       +--------------------+
+                               ^
+                               |
+                       +--------------------+
+                       |   MateriaSource    |
+                       +--------------------+
+                       | - prototypes[4]    |───«AMateria*»
+                       +--------------------+
+                       | + learnMateria(m)  |
+                       | + createMateria(t) |
+                       +--------------------+
