@@ -1,4 +1,5 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp" 
 
 std::ostream& operator<<(std::ostream& out, Bureaucrat const& b) {
 	out << b.getName() 
@@ -9,7 +10,7 @@ std::ostream& operator<<(std::ostream& out, Bureaucrat const& b) {
 	return(out);
 }
 
-Bureaucrat::Bureaucrat() :name(""), grade(1) {
+Bureaucrat::Bureaucrat() :name(""), grade(150) {
 	std::cout << "Default Constructeur Bureaucrate Called\n";
 }
 
@@ -42,6 +43,25 @@ void Bureaucrat::decrementGrade() {
 	if(grade < 1)
 		throw (GradeTooHighException());
 	++grade;
+}
+
+void Bureaucrat::signForm(Form& f) {
+	try {
+		f.beSigned(*this);
+		std::cout	<< name
+					<< " signed "
+					<< f.getName()
+					<< " \n";
+
+	}
+	catch(const std::exception& e) {
+		std::cerr	<< name
+					<< " couldn’t sign "
+					<< f.getName()
+					<< " because "
+					<< e.what()
+					<< " \n";
+	}
 }
 
 std::string Bureaucrat::getName() const {

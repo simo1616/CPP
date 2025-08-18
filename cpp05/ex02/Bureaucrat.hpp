@@ -4,7 +4,7 @@
 #include <iostream>
 #include <exception>
 
-class Form;
+class AForm;
 
 class Bureaucrat {
 	public:
@@ -28,9 +28,10 @@ class Bureaucrat {
 		
 		void incrementGrade();
 		void decrementGrade();
-		void signForm(Form& f);
+		void signForm(AForm& f);
 		std::string getName()	const;
 		int	getGrade() const;
+		void executeForm(AForm const & form) const;
 		~Bureaucrat();
 	private:
 		const std::string name;

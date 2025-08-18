@@ -1,193 +1,131 @@
-## Exercice 01 – “Rassemble-vous, larbins !”
+```markdown
+# Chapitre V - Exercice 02 : « Non, il vous faut le formulaire 28B, pas le 28C… »
 
-### 1. Arborescence et livrables
+## Exercice 02 : Non, il vous faut le formulaire 28B, pas le 28C…
 
-Votre dossier `ex01/` doit contenir :
+### Répertoire de rendu
 
-* **Makefile** (reprenant ou adaptant celui de l’ex00)
-* **Bureaucrat.hpp / .cpp** (inchangés, sauf ajout de `signForm(Form&)`)
-* **Utils.hpp** (exceptions et `operator<<` pour Bureaucrat)
-* **Form.hpp / Form.h**
-* **Form.cpp**
-* **main.cpp** (nouveau, avec vos scénarios de test)
+```
 
-Aucun outil externe ou fonction interdite n’est utilisé.
+ex02/
+
+````
+
+### Fichiers à rendre
+
+- `Makefile`
+- `main.cpp`
+- **Bureaucrat** :
+  - `Bureaucrat.hpp`
+  - `Bureaucrat.cpp`
+- **Formulaire abstrait** :
+  - `AForm.hpp`
+  - `AForm.cpp`
+- **Formulaires concrets** :
+  - `ShrubberyCreationForm.hpp`
+  - `ShrubberyCreationForm.cpp`
+  - `RobotomyRequestForm.hpp`
+  - `RobotomyRequestForm.cpp`
+  - `PresidentialPardonForm.hpp`
+  - `PresidentialPardonForm.cpp`
+
+> **Interdiction** : Aucune fonction n’est interdite pour cet exercice.
 
 ---
 
-### 2. Spécification de la classe **`Form`**
+## Contexte
 
-#### 2.1. Attributs (tous **privés**)
+Vous avez maintenant des formulaires de base, place à ceux qui font vraiment quelque chose !  
+Rappelez-vous que la classe de base `Form` doit devenir une **classe abstraite** et être renommée **`AForm`**.
+Les attributs (nom, état, grades) restent privés et gérés dans cette classe de base.
 
-* `const std::string name;`
-* `bool        isSigned;`  (initialisé à `false`)
-* `const int   signGrade;`    (grade minimum pour signer)
-* `const int   executeGrade;` (grade minimum pour exécuter)
+---
 
-#### 2.2. Constructeur
+## Spécifications de la classe abstraite `AForm`
+
+1. **Attributs privés** (dans `AForm`) :
+   - `name` : nom _constant_ du formulaire.
+   - `isSigned` : booléen indiquant si le formulaire est signé.
+   - `gradeToSign` : grade _constant_ requis pour signer.
+   - `gradeToExecute` : grade _constant_ requis pour exécuter.
+
+2. **Constructeur**
+   - Initialise le nom, les grades requis et l’état (non signé).
+   - Si un grade est hors de l’intervalle [1,150], lever `AForm::GradeTooHighException` ou `AForm::GradeTooLowException`.
+
+3. **Méthode virtuelle pure**
+   - `virtual void executeAction() const = 0;`  
+     Cette méthode effectuera l’action spécifique dans les classes dérivées.
+
+4. **Méthode `execute(Bureaucrat const & executor) const`**
+   - Vérifie que le formulaire est signé (`isSigned == true`).
+   - Vérifie que `executor.getGrade() <= gradeToExecute` (plus le grade est petit, plus le pouvoir est grand).
+   - Si tout est OK, appelle `executeAction()`.
+   - Sinon, lance l’exception appropriée (`FormNotSignedException` ou `GradeTooLowException`).
+
+5. **Accesseurs** et **surcharge de `<<`**
+   - Getters pour nom, état, grades.
+   - Surcharge de l’opérateur `<<` pour afficher toutes les infos du formulaire.
+
+---
+
+## Formulaires concrets
+
+### 1. `ShrubberyCreationForm`
+- **Grades requis** : signer = 145, exécuter = 137
+- **Action** : crée un fichier `<target>_shrubbery` et y écrit un arbre ASCII.
+- **Constructeur** : prend un paramètre `std::string const & target`.
+
+### 2. `RobotomyRequestForm`
+- **Grades requis** : signer = 72, exécuter = 45
+- **Action** : affiche des bruits de forage, puis indique que
+  `<target>` a été robotomisé avec succès 50% du temps,
+  sinon que la robotisation a échoué.
+
+### 3. `PresidentialPardonForm`
+- **Grades requis** : signer = 25, exécuter = 5
+- **Action** : affiche que `<target>` a été gracié par Zaphod Beeblebrox.
+
+> **Constructeurs** : chacun ne prend qu’un seul paramètre `target`.
+
+---
+
+## Intégration avec `Bureaucrat`
+
+Dans la classe **`AForm`**, implémentez la méthode :
+```cpp
+void execute(Bureaucrat const & executor) const;
+````
+
+et, dans **chaque classe concrète**, définissez `executeAction()` pour réaliser l’action.
+
+Ajoutez ensuite à **`Bureaucrat`** la méthode :
 
 ```cpp
-Form(std::string const& name,
-     int signGrade,
-     int executeGrade);
+void executeForm(AForm const & form) const;
 ```
 
-* Initialise tous les membres :
+* Tente d’exécuter le formulaire (`form.execute(*this)`).
+* Si ça réussit, affiche :
 
-  * `name` ← paramètre
-  * `isSigned = false`
-  * `signGrade` ← paramètre
-  * `executeGrade` ← paramètre
-* **Validation des grades** :
-
-  * Si `signGrade < 1` **ou** `executeGrade < 1` → lancer `Form::GradeTooHighException`.
-  * Si `signGrade > 150` **ou** `executeGrade > 150` → lancer `Form::GradeTooLowException`.
-
-#### 2.3. Exceptions imbriquées
-
-Dans `Form.hpp`, déclarez **à l’intérieur** de la classe :
-
-```cpp
-class GradeTooHighException : public std::exception {
-  virtual const char* what() const throw();
-};
-class GradeTooLowException  : public std::exception {
-  virtual const char* what() const throw();
-};
-```
-
-Leur `what()` doit renvoyer un message clair (`"Form grade too high"` / `"Form grade too low"`).
-
-#### 2.4. Accesseurs (`getters`)
-
-Toutes `const` :
-
-```cpp
-std::string getName()         const;
-bool        getIsSigned()     const;
-int         getSignGrade()    const;
-int         getExecuteGrade() const;
-```
-
-#### 2.5. Surcharge de l’opérateur `<<`
-
-Déclarez le prototype en bas de `Form.hpp` :
-
-```cpp
-std::ostream& operator<<(std::ostream& os, Form const& f);
-```
-
-Son implémentation (dans `Form.cpp` ou un utils) affichera :
-
-```
-<form-name>, form signed: <true|false>, sign grade: <signGrade>, exec grade: <executeGrade>
-```
-
-#### 2.6. Méthode **`beSigned`**
-
-```cpp
-void beSigned(Bureaucrat const& b);
-```
-
-* Si `b.getGrade() <= signGrade` →
-
-  ```cpp
-  isSigned = true;
   ```
-* Sinon →
-
-  ```cpp
-  throw GradeTooLowException();
+  <bureaucrat> executed <form>
   ```
+* Sinon, capture l’exception et affiche un message explicite d’erreur.
 
 ---
 
-### 3. Adaptation de la classe **`Bureaucrat`**
+## Tests
 
-Ajoutez, dans `Bureaucrat.hpp` et implémentez dans `Bureaucrat.cpp` :
+Créez un `main.cpp` qui vérifie :
 
-```cpp
-void signForm(Form& f);
+* Création de chaque formulaire (valides/invalides).
+* Signature par un bureaucrate de grade suffisant ou insuffisant.
+* Exécution (ou tentative) pour chaque type de formulaire et chaque grade de bureaucrate.
+
+---
+
+Bonne programmation et que la bureaucratie soit avec vous !
+
 ```
-
-**Comportement** :
-
-1. Tentez de signer :
-
-   ```cpp
-   f.beSigned(*this);
-   ```
-2. **Si** pas d’exception :
-
-   ```cpp
-   std::cout << getName()
-             << " signed "
-             << f.getName()
-             << std::endl;
-   ```
-3. **Si** `GradeTooLowException` attrapée :
-
-   ```cpp
-   std::cout << getName()
-             << " couldn’t sign "
-             << f.getName()
-             << " because "
-             << e.what()
-             << std::endl;
-   ```
-
----
-
-### 4. Scénarios de test (`main.cpp`)
-
-1. **Construction de formulaires**
-
-   * Valides :
-
-     ```cpp
-     Form f1("FormA", 50, 25);
-     std::cout << f1;
-     ```
-   * Invalides (grades hors bornes) :
-
-     ```cpp
-     try { Form f2("Bad1", 0, 10); }
-     catch (std::exception& e) { std::cerr << e.what(); }
-
-     try { Form f3("Bad2", 10, 200); }
-     catch (std::exception& e) { std::cerr << e.what(); }
-     ```
-
-2. **Signature directe**
-
-   ```cpp
-   Bureaucrat bob("Bob", 30);
-   Form report("Report", 25, 5);
-   // grade Bob (30) > 25 → trop bas
-   bob.signForm(report);  // affiche « Bob couldn’t sign Report because ... »
-   ```
-
-3. **Signature réussie**
-
-   ```cpp
-   Bureaucrat alice("Alice", 5);
-   Form contract("Contract", 10, 5);
-   alice.signForm(contract); // « Alice signed Contract »
-   std::cout << contract;    // isSigned == true
-   ```
-
-4. **Affichage complet** (`operator<<`)
-
-   ```cpp
-   std::cout << contract;
-   ```
-
----
-
-### 5. Validation finale
-
-* **Pas** de warnings ou d’erreurs (`-Wall -Wextra -Werror -std=c++98`).
-* **Vérifiez** qu’aucune fuite mémoire n’apparaît (Valgrind / AddressSanitizer).
-* **Commentez** ou retirez tout `std::cout` de debug dans les constructeurs/destructeurs existants.
-
-Voilà un plan détaillé pour une mise en œuvre claire et conforme !
+```
