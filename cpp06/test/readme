@@ -1,0 +1,114 @@
+
+# Plan de départ 
+
+## 0) Prépare l’interface (déjà fait)
+
+* Classe non-instanciable (ctor/copy/assign/dtor privés).
+* Méthode statique `convert(const std::string&)`.
+
+## 1) Écris un *petit* détecteur de type (string only)
+
+Fais une fonction interne (ex: `detectType(input) -> enum { CHAR_T, INT_T, FLOAT_T, DOUBLE_T, PSEUDO_FLOAT, PSEUDO_DOUBLE, INVALID }`).
+
+Ordre de détection recommandé (du plus spécifique au plus simple) :
+
+1. **Pseudo-littéraux** (match exact, sensible à la casse)
+
+   * `PSEUDO_FLOAT` : `nanf`, `+inff`, `-inff`
+   * `PSEUDO_DOUBLE` : `nan`, `+inf`, `-inf`
+2. **Char**
+
+   * Soit **forme canonique** : un caractère entre quotes simples, p.ex. `'a'` (longueur 3)
+   * Soit tu acceptes **un unique caractère imprimable** sans quotes (ex: `a`). (Choisis une seule convention et sois cohérent.)
+3. **Float**
+
+   * **Il y a un point** `.`
+   * **Termine par `f`**
+   * Le reste : signe optionnel, **au moins un chiffre avant et après le point** (on reste en **notation décimale** uniquement, le sujet l’impose).
+4. **Double**
+
+   * **Il y a un point** `.`
+   * **Ne** se termine **pas** par `f`
+   * Même règles de chiffres que pour float (au moins un avant et un après).
+5. **Int**
+
+   * Signe optionnel, puis **uniquement des chiffres**.
+   * **Pas** de point, **pas** de `f`.
+
+⚠️ Détails utiles pour la validation lexicale :
+
+* Autorise un seul `+` ou `-` **au début**.
+* **Un seul** point pour float/double.
+* Pour `int`, refuse `+`, `-` seuls sans chiffres.
+* Pour `float`, exige le `f` **en fin de chaîne** (pas ailleurs).
+* Pas d’espaces au début/fin (le sujet n’en prévoit pas).
+
+💡 Astuce mentale (règles “regex” que tu peux *imiter* sans forcément écrire une regex) :
+
+* **int** : `^[+-]?[0-9]+$`
+* **float** : `^[+-]?[0-9]+\.[0-9]+f$`
+* **double** : `^[+-]?[0-9]+\.[0-9]+$`
+
+## 2) Une fois le type détecté, décide comment parser
+
+* **C++98**: évite `std::stoi/std::stof/std::stod` (C++11).
+  Utilise des équivalents *C* sûrs :
+
+  * `int` → `strtol`
+  * `float`/`double` → `strtod` puis cast en `float` si source = float
+  * `char` → lis directement le caractère
+* **Pseudo-littéraux** : pas de parse numérique “classique” ; traite comme cas spéciaux (tu “sais” déjà ce que tu devras afficher pour float/double, et “impossible” pour char/int).
+
+## 3) Conversions vers les 4 types (règles conceptuelles)
+
+* **char**
+
+  * Pseudos : **impossible**
+  * Si hors plage (`< 0` ou `> 127` pour un `char` signé classique en 42) → **impossible**
+  * Si non affichable (`!isprint`) → **Non displayable**
+  * Sinon afficher `'c'`
+* **int**
+
+  * Pseudos : **impossible**
+  * Vérifie les bornes avant cast (`std::numeric_limits<int>::min()/max()`) → sinon **impossible**
+  * Sinon afficher la valeur entière
+* **float**
+
+  * Pour un nombre “normal”, affiche avec **une décimale** et le suffixe **`f`**.
+    (p.ex. `42` → `42.0f`)
+  * Pour **`nan`/`±inf`** : affiche `nanf`, `+inff`, `-inff`
+* **double**
+
+  * Idem float mais **sans** `f` (`42.0`, `nan`, `+inf`, `-inf`)
+
+💡 Pour imposer “une décimale”, tu utiliseras plus tard `std::fixed` + `std::setprecision(1)`.
+
+## 4) Ordre d’implémentation conseillé (micro-commits)
+
+1. **Affiche juste l’input** (tu l’as).
+2. Implémente **uniquement la détection** (retourne l’enum, sans rien parser).
+
+   * Teste 10–15 entrées et vérifie que le type détecté est correct (papier/console).
+3. Branche **uniquement les pseudos** : si `PSEUDO_FLOAT`/`PSEUDO_DOUBLE`, affiche les 4 lignes “conceptuelles” (char/int impossibles, float/double pseudo).
+4. Implémente le **parse** pour un type simple (commence par **int**), puis affiche les 4 conversions (avec les règles).
+5. Ajoute **double**, puis **float**, puis **char**.
+6. Termine par les **détails d’affichage** (forçage `.0`, spacing, messages exacts).
+
+## 5) Jeu de tests minimal (détection puis conversion)
+
+* **Char** : `'A'`, `'z'` (et un cas non-affichable si tu veux tester le message, mais le sujet dit que l’entrée n’en aura pas)
+* **Int** : `0`, `-42`, `42`, `+7`
+* **Float** : `0.0f`, `-4.2f`, `4.2f`, `+3.0f`
+* **Double** : `0.0`, `-4.2`, `4.2`, `+3.0`
+* **Pseudos float** : `nanf`, `+inff`, `-inff`
+* **Pseudos double** : `nan`, `+inf`, `-inf`
+* **Invalides** (doivent être rejetés en détection) : `.`, `f`, `--1`, `+`, `4.f`, `4.`, `.` , `4..2`, `4.2ff`, `42f`, `inf` (sans +/- côté double selon ta spec), etc.
+
+---
+
+## Synthèse
+
+* **Oui**, ta stratégie est la bonne.
+* **Commence** par le **détecteur de type 100% string**, **puis** seulement tu feras le parse/casts/affichages.
+* Avance **étape par étape** : d’abord pseudos, puis int, puis double, puis float, puis char (ou l’ordre que tu préfères), en validant à chaque fois.
+
