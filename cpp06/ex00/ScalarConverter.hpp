@@ -2,6 +2,7 @@
 #define SCALARCONVERTER_HPP
 
 #include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <cerrno>
 #include <string>
@@ -26,8 +27,10 @@ class  ScalarConverter {
 		ScalarConverter(ScalarConverter const &other);
 		ScalarConverter& operator=(const ScalarConverter &o);
 		~ScalarConverter();
-		static LiteralType detectType(std::string const& input);
-
+		static void displayChar(double d);
+		static void displayInt(double d);
+		static void displayFloat(double d);
+		static void displayDouble(double d);
 };
 
 #endif
