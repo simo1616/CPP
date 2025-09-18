@@ -13,15 +13,7 @@
 class  ScalarConverter {
 	public:
 		static void convert(const std::string& input);
-		enum LiteralType {
-			CHAR_T,
-			INT_T,
-			FLOAT_T,
-			DOUBLE_T,
-			PSEUDO_FLOAT,
-			PSEUDO_DOUBLE,
-			INVALID
-		};
+		
 	private:
 		ScalarConverter();
 		ScalarConverter(ScalarConverter const &other);

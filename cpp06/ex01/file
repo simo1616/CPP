@@ -1,0 +1,94 @@
+#ifndef DATA_HPP
+#define DATA_HPP
+
+#include <iostream>
+
+struct Data {
+	int 		x;
+	std::string str;
+};
+
+#endif#include "Serializer.hpp"
+
+int main () {
+	Data *d = new Data;
+
+	std::cout << "data x = " << d->x
+				<< " data str = " << d->str
+				<< std::endl;
+
+	uintptr_t raw = 42;
+	raw = Serializer::serialize(d);
+	Data *back = Serializer::deserialize(raw);
+
+	std::cout << "apres conversion" << std::endl;
+	std::cout << "data back x = " << back->x
+				<< " data back str = " << back->str
+				<< std::endl;
+	delete d;
+	return 0;
+} NAME = serializer
+
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+DBGFLAGS = -g -std=c++98
+
+SRCS = main.cpp Serializer.cpp
+
+OBJS = $(SRCS:.cpp=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+		$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+
+clean:
+		rm -f $(OBJS)
+
+fclean: clean
+		rm -f $(NAME)
+
+re: fclean all
+
+debug:
+		$(CXX) $(DBGFLAGS) $(SRCS) -o $(NAME)
+
+valgrind: debug
+		valgrind ./$(NAME)
+
+.PHONY: all clean fclean re
+ #include "Serializer.hpp"
+
+Serializer::Serializer() {}
+Serializer::Serializer(Serializer const &other) {(void)other;}
+Serializer& Serializer::operator=(Serializer const &other) {(void)other; return *this;}
+Serializer::~Serializer() {}
+
+uintptr_t Serializer::serialize(Data* ptr) {
+	return(reinterpret_cast<uintptr_t>(ptr));
+}
+
+Data* Serializer::deserialize(uintptr_t raw) {
+	return(reinterpret_cast<Data *>(raw));
+}#ifndef SERIALIZER_HPP
+#define SERIALIZER_HPP
+
+#include <iostream>
+#include <stdint.h>
+#include "Data.hpp"
+
+
+class Serializer {
+	public:
+		static uintptr_t serialize(Data* ptr);
+		static Data* deserialize(uintptr_t raw);
+
+	private:
+		Serializer();
+		Serializer(Serializer const &other);
+		Serializer& operator=(Serializer const &other);
+		~Serializer();
+		
+};
+
+#endif
