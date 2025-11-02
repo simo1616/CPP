@@ -19,8 +19,27 @@ int main() {
     d[1] = 77;
 
     std::cout << "Apres modification:" << std::endl;
-    for (unsigned int i = 0; i < c.size(); i++)
+    for (unsigned int i = 0; i < c.size(); i++) {
         std::cout << "c[" << i << "]=" << c[i] << " d[" << i << "]=" << d[i] << std::endl;
+	}
+
+	
+	Array<int> dd(5);
+	for (unsigned int i = 0; i < dd.size(); i++)
+		dd[i] = i + 1;
+	std::cout << "Avant affectation:" << std::endl;
+	for (unsigned int i = 0; i < dd.size(); i++)
+		std::cout << "dd" << i << "]=" << dd[i] << " d[" << i << "]=" << dd[i] << std::endl;
+	Array<int> e;
+	e = dd;
+	
+	std::cout << "Apres affectation:" << std::endl;
+	for (unsigned int i = 0; i < e.size(); i++)
+		std::cout << "e[" << i << "]=" << e[i] << " dd[" << i << "]=" << dd[i] << std::endl;
+
+	
+
+
 
     return 0;
 }
