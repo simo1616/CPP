@@ -14,12 +14,12 @@ class Array {
 		Array(Array const &other);
 		T& operator[](unsigned int index);
 		const T& operator[](unsigned int index) const;
-		
+		T& operator=(Array const &other);
 		unsigned int size() const;
 		~Array();
 	private:
-		T *bloc;
-		unsigned int size_b;
+		T*           _array;
+		unsigned int _size;
 };
 
 #include "Array.tpp"

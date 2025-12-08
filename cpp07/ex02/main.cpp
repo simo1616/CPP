@@ -10,7 +10,7 @@ int main() {
     for (unsigned int i = 0; i < c.size(); i++)
         c[i] = i + 1;
 
-    Array<int> d(c);
+    Array<int> d(c); 
     std::cout << "Avant modification:" << std::endl;
     for (unsigned int i = 0; i < c.size(); i++)
         std::cout << "c[" << i << "]=" << c[i] << " d[" << i << "]=" << d[i] << std::endl;

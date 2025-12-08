@@ -1,54 +1,67 @@
 
 
 template <typename T>
-Array<T>::Array() :bloc(NULL), size_b(0) { 
+Array<T>::Array() :_array(NULL), _size(0) { 
 	std::cout << "Defaut constructeur.\n";
 }
 
 
 template <typename T>
-Array<T>::Array(unsigned int n):bloc(new T[n]), size_b(n) { 
+Array<T>::Array(unsigned int n):_array(new T[n]), _size(n) { 
 	std::cout << "ARG(n) constructeur.\n";
 }
 
 template <typename T>
-Array<T>::Array(Array const &other):size_b(other.size_b) {
-	if(!size_b)
-		bloc = NULL;
+Array<T>::Array(Array const &other):_size(other._size) {
+	if(!_size)
+		_array = NULL;
 	else {
 		try {
-			bloc = new T[size_b];
+			_array = new T[_size];
 		}
 		catch(const std::bad_alloc &e) {
-			std::cerr << "Error! Allocation of bloc :" << e.what() << std::endl;
+			std::cerr << "Error! Allocation of _array :" << e.what() << std::endl;
+			delete[] _array;
+			throw;
 		}
-		for(unsigned int i = 0; i < size_b; i++)
-			bloc[i] = other.bloc[i];
+		for(unsigned int i = 0; i < _size; i++)
+			_array[i] = other._array[i];
 	}
 }
 
+template <typename T>
+T& Array<T>::operator=(Array const &other) {
+	if(this == &other) return *this;
+	delete[] _array;
+	_size = other._size;
+	_array = new T[_size];
+	for(unsigned int i = 0; i < _size; i++)
+			_array[i] = other._array[i];
+	return *this;
+}
 
 template <typename T>
 T& Array<T>::operator[](unsigned int index) {
-	if(index >= size_b)
+	if(index >= _size)
 		throw std::out_of_range("too big");
-	return(bloc[index]);
+	return(_array[index]);
 }
 
 template <typename T>
 const T& Array<T>::operator[](unsigned int index) const{
-	if(index >= size_b)
+	if(index >= _size)
 		throw std::out_of_range("too big");
-	return(bloc[index]);
+	return(_array[index]);
 }
 
 
 template <typename T>
 unsigned int Array<T>::size() const {
-	return(size_b);
+	return(_size);
 }
 
 template <typename T>
 Array<T>::~Array() { 
 	std::cout << "Defaut destructeur.\n"; 
+	delete[] _array;
 }
