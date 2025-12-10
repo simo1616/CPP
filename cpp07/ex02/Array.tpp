@@ -4,7 +4,10 @@ template <typename T>
 Array<T>::Array():_array(NULL), _size(0) {}
 
 template <typename T>
-Array<T>::Array(unsigned int size) : _array(new T[size]), _size(size) {}
+Array<T>::Array(unsigned int size) : _array(NULL), _size(size) {
+	if (size > 0)
+		_array = new T[size];
+}
 
 template <typename T>
 Array<T>::Array(const Array& other) : _array(NULL), _size(0) {

@@ -3,7 +3,7 @@
 
 
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 
 
 template <typename T>
@@ -11,8 +11,8 @@ class Array {
 	public:
 		Array();
 		Array(unsigned int size);
-		Array(const Array& other); // Constructeur par copie
-		Array& operator=(const Array& other); // Opérateur d'assignation
+		Array(const Array& other);
+		Array& operator=(const Array& other);
 		T& operator[](unsigned int index);
 		const T& operator[](unsigned int index) const;
 		unsigned int size() const;
