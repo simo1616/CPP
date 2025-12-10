@@ -14,7 +14,7 @@ int main() {
 
 	Data* q = Serializer::deserialize(raw);
 	std::cout << "q=" << q << " | x=" << q->x << " | str=" << q->str << "\n";
-	std::cout << "same ptr? " << (p == q ? "YES" : "NO") << "\n";
+	std::cout << "same ptr? " << (p == q ? "YES" : "NO") << std::endl;
 
-	return (p == q) ? 0 : 1;
+	return (0);
 }
