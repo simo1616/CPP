@@ -1,111 +1,54 @@
-#include <iostream>
 #include "Array.hpp"
 
-int main() {
-    Array<int> a;
-    Array<int> b(a);
-    std::cout << "a.size() = " << a.size() << ", b.size() = " << b.size() << std::endl;
+class X_ET_Y {
+	public:
+		X_ET_Y() : _x(0) {}
+		X_ET_Y(int x, std::string str) : _x(x), _str(str) {}
 
-    Array<int> c(5);
-    for (unsigned int i = 0; i < c.size(); i++)
-        c[i] = i + 1;
+		int getX() const { return _x; }
+		const std::string& getStr() const { return _str; }
 
-    Array<int> d(c); 
-    std::cout << "Avant modification:" << std::endl;
-    for (unsigned int i = 0; i < c.size(); i++)
-        std::cout << "c[" << i << "]=" << c[i] << " d[" << i << "]=" << d[i] << std::endl;
+	private:
+		int _x;
+		std::string _str;
+};
 
-    c[0] = 99;
-    d[1] = 77;
-
-    std::cout << "Apres modification:" << std::endl;
-    for (unsigned int i = 0; i < c.size(); i++) {
-        std::cout << "c[" << i << "]=" << c[i] << " d[" << i << "]=" << d[i] << std::endl;
-	}
-
-	
-	Array<int> dd(5);
-	for (unsigned int i = 0; i < dd.size(); i++)
-		dd[i] = i + 1;
-	std::cout << "Avant affectation:" << std::endl;
-	for (unsigned int i = 0; i < dd.size(); i++)
-		std::cout << "dd" << i << "]=" << dd[i] << " d[" << i << "]=" << dd[i] << std::endl;
-	Array<int> e;
-	e = dd;
-	
-	std::cout << "Apres affectation:" << std::endl;
-	for (unsigned int i = 0; i < e.size(); i++)
-		std::cout << "e[" << i << "]=" << e[i] << " dd[" << i << "]=" << dd[i] << std::endl;
-
-	
-
-
-
-    return 0;
+std::ostream& operator<<(std::ostream& os, const X_ET_Y& obj) {
+	os << "X_ET_Y(x=" << obj.getX() << ", str='" << obj.getStr() << "')";
+	return os;
 }
 
+int main () {
+	unsigned int size = 5;
+	Array<X_ET_Y> tablo(size);
 
+	for(unsigned int i = 0; i < tablo.size(); i++){
+		tablo[i] = X_ET_Y(i, "test");
+	}
 
+	const Array<X_ET_Y> tatab = tablo;
 
+	for(unsigned int i = 0; i < tatab.size(); i++){
+		std::cout << "tatab[" << i << "] = " << tatab[i] << std::endl;
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// int main() {
-// 	std::cout << "=== Constructeur par défaut ===" << std::endl;
-// 	Array<int> a; // tableau vide
-// 	std::cout << "Taille de a : " << a.size() << std::endl;
-
-// 	Array<int> b(100);
-// 	std::cout << "Taille de b : " << b.size() << std::endl;
-// 	try {
-// 		for (unsigned int i = 0; i < b.size() + 20; i++)
-// 			b[i] = i * 10;
-// 	}
-// 	catch (const std::out_of_range &e) {
-// 		std::cout << "e.what = "<< e.what() << std::endl;
-// 	}
-// 	try {
-// 		for (unsigned int i = 0; i < b.size() + 20; i++)
-// 			std::cout << b[i] << " ";
-// 	}
-// 	catch (const std::out_of_range &e) {
-// 		std::cout << "e.what = "<< e.what() << std::endl;
-// 	}
-// 	try {
-// 			std::cout << b[100] << "\n";
-// 	}
-// 	catch (const std::out_of_range &e) {
-// 		std::cout << "e.what = "<< e.what() << std::endl;
-// 	}
+	std::cout << "\n--- Test d'affectation (Deep Copy) ---" << std::endl;
+	Array<X_ET_Y> copyAssign;
+	copyAssign = tablo; // Test explicite de l'opérateur =
 	
-// 	const Array<int> c(100);
-// 	std::cout << "Taille de c : " << c.size() << std::endl;
-// 	try {
-// 			std::cout << c[100] << "\n";
-// 	}
-// 	catch (const std::out_of_range &e) {
-// 		std::cout << "e.what = "<< e.what() << std::endl;
-// 	}
+	tablo[0] = X_ET_Y(999, "MODIFIED");
+	std::cout << "Original modifié [0] : " << tablo[0] << std::endl;
+	std::cout << "Copie (doit rester intacte) [0] : " << copyAssign[0] << std::endl;
 
-// 	Array<int> d(b);
-// 	std::cout << "Taille de 'd' : " << d.size() << std::endl;
-	
+	std::cout << "\n--- Test d'exception (Out of Range) ---" << std::endl;
+	try {
+		std::cout << "tentative d'accès à l'index invalide..." << std::endl;
+		std::cout << tablo[500] << std::endl; // Doit lancer une exception
+	} catch (const std::exception& e) {
+		std::cerr << "exception catched : " << e.what() << std::endl;
+	}
 
-// 	return 0;
-// }
+	std::cout << "\n--- Test tableau vide ---" << std::endl;
+	Array<int> emptyArray;
+	std::cout << "Taille tableau vide : " << emptyArray.size() << std::endl;
+}

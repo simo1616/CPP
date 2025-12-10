@@ -11,8 +11,7 @@ void ScalarConverter::displayChar(double d) {
 		std::cout << "impossible\n";
 		return;
 	}
-	int iv = static_cast<int>(d);
-	char ch = static_cast<char>(iv);
+	char ch = static_cast<char>(d);
 	if (!std::isprint(static_cast<unsigned char>(ch)))
 		std::cout << "Non displayable\n";
 	else
@@ -91,4 +90,3 @@ void ScalarConverter::convert(const std::string& input) {
 	displayFloat(d);
 	displayDouble(d);
 }
-

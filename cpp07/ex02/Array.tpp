@@ -1,67 +1,49 @@
 
 
 template <typename T>
-Array<T>::Array() :_array(NULL), _size(0) { 
-	std::cout << "Defaut constructeur.\n";
-}
-
+Array<T>::Array():_array(NULL), _size(0) {}
 
 template <typename T>
-Array<T>::Array(unsigned int n):_array(new T[n]), _size(n) { 
-	std::cout << "ARG(n) constructeur.\n";
+Array<T>::Array(unsigned int size) : _array(new T[size]), _size(size) {}
+
+template <typename T>
+Array<T>::Array(const Array& other) : _array(NULL), _size(0) {
+	*this = other;
 }
 
 template <typename T>
-Array<T>::Array(Array const &other):_size(other._size) {
-	if(!_size)
-		_array = NULL;
-	else {
-		try {
-			_array = new T[_size];
-		}
-		catch(const std::bad_alloc &e) {
-			std::cerr << "Error! Allocation of _array :" << e.what() << std::endl;
-			delete[] _array;
-			throw;
-		}
-		for(unsigned int i = 0; i < _size; i++)
-			_array[i] = other._array[i];
+Array<T>& Array<T>::operator=(const Array& other) {
+	if (this == &other)
+		return *this;
+	T* new_array = new T[other._size];
+	for (unsigned int i = 0; i < other._size; i++) {
+		new_array[i] = other._array[i];
 	}
-}
-
-template <typename T>
-T& Array<T>::operator=(Array const &other) {
-	if(this == &other) return *this;
 	delete[] _array;
+	_array = new_array;
 	_size = other._size;
-	_array = new T[_size];
-	for(unsigned int i = 0; i < _size; i++)
-			_array[i] = other._array[i];
 	return *this;
 }
+
+
+template <typename T>
+unsigned int Array<T>::size() const {return(_size);}
 
 template <typename T>
 T& Array<T>::operator[](unsigned int index) {
 	if(index >= _size)
-		throw std::out_of_range("too big");
+		throw std::out_of_range("Index is out of range");
 	return(_array[index]);
 }
 
 template <typename T>
-const T& Array<T>::operator[](unsigned int index) const{
+const T&  Array<T>::operator[](unsigned int index) const {
 	if(index >= _size)
-		throw std::out_of_range("too big");
+		throw std::out_of_range("Index is out of range");
 	return(_array[index]);
 }
 
-
 template <typename T>
-unsigned int Array<T>::size() const {
-	return(_size);
-}
-
-template <typename T>
-Array<T>::~Array() { 
-	std::cout << "Defaut destructeur.\n"; 
-	delete[] _array;
+Array<T>::~Array() {
+	delete[] this->_array;
 }
