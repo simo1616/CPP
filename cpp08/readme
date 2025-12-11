@@ -1,0 +1,154 @@
+
+# C++ - Module 08
+
+**Conteneurs templés, itérateurs, algorithmes**
+
+## Résumé
+
+Ce document contient les exercices du Module 08 des modules C++.
+
+**Version : 10.0**
+
+## Sommaire
+
+I. Introduction
+II. Règles générales
+III. Règles spécifiques au module
+IV. Instructions IA
+V. Exercice 00 : Easy find
+VI. Exercice 01 : Span
+VII. Exercice 02 : Mutated abomination
+VIII. Rendu et évaluation par les pairs
+
+---
+
+# Chapitre I
+
+## Introduction
+
+C++ est un langage de programmation généraliste créé par Bjarne Stroustrup comme une extension du langage C, ou « C with Classes » (source : Wikipedia).
+
+L'objectif de ces modules est de vous introduire à la Programmation Orientée Objet.
+Ceci sera le point de départ de votre parcours C++.
+
+De nombreux langages sont recommandés pour apprendre l’OOP. Nous avons choisi C++ car il dérive de votre bon vieil ami C.
+Comme il s’agit d’un langage complexe, et afin de rester simple, votre code devra respecter le standard **C++98**.
+
+Nous savons que le C++ moderne est très différent sur de nombreux aspects. Si vous souhaitez devenir un expert du C++, ce sera à vous d’aller plus loin une fois le tronc commun de 42 terminé.
+
+---
+
+# Chapitre II
+
+## Règles générales
+
+### Compilation
+
+* Compilez votre code avec `c++` et les flags :
+  `-Wall -Wextra -Werror`
+* Votre code doit compiler même si vous ajoutez le flag :
+  `-std=c++98`
+
+### Format et conventions de nommage
+
+* Les dossiers d’exercices doivent être nommés : `ex00`, `ex01`, … , `exn`.
+* Nommez vos fichiers, classes, fonctions et attributs comme exigé dans les consignes.
+* Les noms de classe doivent être écrits en **UpperCamelCase**.
+  Exemples :
+  `ClassName.hpp`, `ClassName.cpp`, `ClassName.tpp`.
+* Tous les messages affichés doivent se terminer par un retour à la ligne et être envoyés sur la sortie standard.
+
+### Style
+
+* Aucune norme de style C++ imposée (adieu Norminette).
+* Un code illisible est un code non évaluable : faites simple et clair.
+
+### Autorisé / Interdit
+
+Vous ne programmez plus en C, mais en C++ :
+
+**Autorisé :**
+
+* Presque toute la bibliothèque standard C++.
+
+**Interdit :**
+
+* Toutes les bibliothèques externes : C++11 et dérivés, Boost, etc.
+* Les fonctions suivantes : `*printf()`, `*alloc()`, `free()`.
+  → Utiliser ces fonctions mène à **0**.
+* Les mots-clés `using namespace <ns_name>` et `friend` (sauf mention contraire).
+  → Leur utilisation entraîne **-42**.
+* La STL est **autorisée uniquement dans les modules 08 et 09**.
+  → Avant cela : **interdiction totale des containers et des algorithmes**.
+  → Sinon : **-42**.
+
+### Contraintes de conception
+
+* Les fuites mémoires existent aussi en C++ : tout `new` doit avoir son `delete`.
+* Du module 02 au 09, vos classes doivent respecter la **forme canonique (Orthodox Canonical Form)** sauf indication contraire.
+* Toute implémentation placée dans un header (sauf templates) entraîne **0**.
+* Chaque header doit être autonome → inclure ses dépendances.
+* Protégez vos headers contre la double inclusion (include guards), sinon **0**.
+
+### Lecture des sujets
+
+* Vous pouvez ajouter des fichiers si nécessaire.
+* Les exemples contiennent parfois des exigences non écrites explicitement.
+* Lisez toujours le module en entier avant de commencer.
+* Et surtout : **UTILISEZ VOTRE CERVEAU**.
+
+---
+
+# Chapitre III
+
+## Règles spécifiques au module
+
+Dans ce module, les exercices **peuvent** être résolus sans utiliser les containers ou algorithmes de la STL.
+
+Mais justement :
+
+### **L’objectif du Module 08 est d’utiliser la STL.**
+
+Vous devez utiliser **les Containers** (`vector`, `list`, `map`, etc.) et **les Algorithms** (header `<algorithm>`) partout où cela est pertinent.
+
+Vous serez **très mal noté** si vous ne les utilisez pas, même si votre code fonctionne parfaitement.
+
+### Templates
+
+Vous pouvez définir vos templates directement dans les headers, ou séparer la déclaration (header) et l’implémentation dans un fichier `.tpp`.
+
+Les fichiers header sont obligatoires, les `.tpp` sont optionnels.
+
+
+
+************************************************************************************************************************************************************
+
+
+# Exercice 00 : Easy find
+
+**Exercice : 00**
+**Nom : Easy find**
+**Dossier de rendu :** `ex00/`
+**Fichiers à rendre :** `Makefile`, `main.cpp`, `easyfind.{h, hpp}`
+**Fichier optionnel :** `easyfind.tpp`
+**Fonctions interdites :** Aucune
+
+---
+
+Un premier exercice simple pour bien démarrer.
+
+Écrivez une fonction template `easyfind` qui accepte un type **T**.
+Elle prend deux paramètres :
+
+* le premier est de type **T**
+* le second est un **int**
+
+En supposant que **T est un conteneur d’entiers**, cette fonction doit rechercher **la première occurrence** du second paramètre dans le premier.
+
+Si aucune occurrence n’est trouvée, vous pouvez **soit lancer une exception**, soit **retourner une valeur d’erreur** de votre choix.
+Si vous manquez d’inspiration, analysez comment se comportent les conteneurs standards.
+
+Bien sûr, implémentez et rendez vos **propres tests** afin de vérifier que tout fonctionne comme prévu.
+
+Vous **n’avez pas besoin** de gérer les conteneurs associatifs.
+
