@@ -34,7 +34,7 @@ int main () {
 
 	std::cout << "\n--- Test d'affectation (Deep Copy) ---" << std::endl;
 	Array<X_ET_Y> copyAssign;
-	copyAssign = tablo; // Test explicite de l'opérateur =
+	copyAssign = tablo;
 	
 	tablo[0] = X_ET_Y(999, "MODIFIED");
 	std::cout << "Original modifié [0] : " << tablo[0] << std::endl;

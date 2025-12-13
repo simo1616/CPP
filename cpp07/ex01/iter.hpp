@@ -10,11 +10,4 @@ void iter(T* array, size_t const length, F funct) {
 	}
 }
 
-template <typename T, typename F>
-void iter(T const* array, size_t const length, F funct) {
-	for(size_t i = 0; i < length; i++) {
-		funct(array[i]);
-	}
-}
-
 #endif

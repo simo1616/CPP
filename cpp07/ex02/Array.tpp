@@ -6,7 +6,7 @@ Array<T>::Array():_array(NULL), _size(0) {}
 template <typename T>
 Array<T>::Array(unsigned int size) : _array(NULL), _size(size) {
 	if (size > 0)
-		_array = new T[size];
+		_array = new T[size]();
 }
 
 template <typename T>
@@ -18,9 +18,20 @@ template <typename T>
 Array<T>& Array<T>::operator=(const Array& other) {
 	if (this == &other)
 		return *this;
+	if (other._size == 0) {
+		delete[] _array;
+		_array = NULL;
+		_size = 0;
+		return *this;
+	}
 	T* new_array = new T[other._size];
-	for (unsigned int i = 0; i < other._size; i++) {
-		new_array[i] = other._array[i];
+	try {
+		for (unsigned int i = 0; i < other._size; i++) {
+			new_array[i] = other._array[i];
+		}
+	} catch (...) {
+		delete[] new_array;
+		throw;
 	}
 	delete[] _array;
 	_array = new_array;
