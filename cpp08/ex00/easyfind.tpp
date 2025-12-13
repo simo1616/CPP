@@ -1,8 +1,6 @@
 
-
-
 template <typename T>
-void easyfind(T &container, int n) {
+typename T::iterator easyfind(T &container, int n) {
 	typename T::iterator it;
 	
 	it = std::find(container.begin(), container.end(), n);
@@ -12,4 +10,5 @@ void easyfind(T &container, int n) {
 	int pos = std::distance(container.begin(), it);
 
 	std::cout << "Element " << *it << " found in position: " << pos << '\n';
+	return it;
 }

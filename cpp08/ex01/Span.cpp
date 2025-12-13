@@ -35,7 +35,7 @@ void Span::display() {
 
 }
 
-int Span::shortestSpan() {
+int Span::shortestSpan() const {
 	if(_vec.size() < 2)
 		throw std::logic_error ("Error! = Size < 2");
 	
@@ -57,12 +57,11 @@ int Span::shortestSpan() {
 }
 
 
-int Span::longestSpan() {
+int Span::longestSpan() const {
 	if(_vec.size() < 2)
 		throw std::logic_error ("Error! = Size < 2");
-	std::vector<int>::iterator n_min = std::min_element(_vec.begin(), _vec.end());
-	std::vector<int>::iterator n_max = std::max_element(_vec.begin(), _vec.end());
-	return(*n_max - *n_min);
+	std::pair<std::vector<int>::const_iterator, std::vector<int>::const_iterator> result = std::minmax_element(_vec.begin(), _vec.end());
+	return (*result.second - *result.first);
 }
 
 Span::~Span() {}

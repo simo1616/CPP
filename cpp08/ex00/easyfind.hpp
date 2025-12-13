@@ -8,6 +8,7 @@
 #include <map>
 #include <stack>
 #include <algorithm>
+#include <iterator>
 #include <stdexcept>
 
 

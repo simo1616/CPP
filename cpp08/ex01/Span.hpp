@@ -18,13 +18,13 @@ class Span {
 		void addNumber(int value);
 		template <typename Iter>
 		void addNumber(Iter begin, Iter end) {
-			if(std::distance(begin, end) > static_cast<int> (_n - _vec.size())) {
+			if(static_cast<unsigned int>(std::distance(begin, end)) > (_n - _vec.size())) {
 				throw std::runtime_error ("not enough space");
 			}
 			_vec.insert(_vec.end(), begin, end);
 		}
-		int shortestSpan();
-		int longestSpan();
+		int shortestSpan() const;
+		int longestSpan() const;
 		void display();
 		~Span();
 	private:
