@@ -60,8 +60,9 @@ int Span::shortestSpan() const {
 int Span::longestSpan() const {
 	if(_vec.size() < 2)
 		throw std::logic_error ("Error! = Size < 2");
-	std::pair<std::vector<int>::const_iterator, std::vector<int>::const_iterator> result = std::minmax_element(_vec.begin(), _vec.end());
-	return (*result.second - *result.first);
+	std::vector<int>::const_iterator min = std::min_element(_vec.begin(), _vec.end());
+	std::vector<int>::const_iterator max = std::max_element(_vec.begin(), _vec.end());
+	return (*max - *min);
 }
 
 Span::~Span() {}
