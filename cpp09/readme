@@ -97,3 +97,42 @@ Error: too large a number.
 
 ⚠️ **Avertissement**
 Le(s) conteneur(s) que vous utilisez pour valider cet exercice **ne pourront plus être utilisés pour le reste de ce module**.
+
+
+
+
+***************************************************************************************************************************************************************************
+
+
+1. BDD
+
+La base de données (data.csv) : C'est la connaissance interne de ton programme.
+Le fichier d'entrée (argument du programme) : C'est la demande de l'utilisateur.
+Pour la base de données (data.csv) : Oui, cela doit absolument se faire dans la classe BitcoinExchange. L'idéal est de le faire dans le constructeur. Quand tu crées ton objet BitcoinExchange, il devrait automatiquement ouvrir data.csv, lire les données et remplir ta std::map. Ainsi, dès que l'objet est créé, il est "intelligent" et connaît les taux de change.
+
+Pour le fichier d'entrée (celui passé en argument) : Tu as deux choix de design valides :
+
+Option A (Main minimaliste) : Tu crées une méthode publique dans ta classe (ex: void run(std::string filename)) et tu lui passes le nom du fichier. C'est la classe qui ouvre, lit et affiche les résultats. Le main ne fait qu'appeler cette méthode.
+Option B (Main chef d'orchestre) : Le main ouvre le fichier d'entrée, lit ligne par ligne, parse la date et la valeur, et appelle une méthode de ta classe pour obtenir le taux (ex: getRate(date)).
+L'Option A est souvent préférée en C++ orienté objet pour garder le main très propre.
+
+2. Quelle est l'étape suivante ?
+Maintenant que tu sais lire les lignes brutes, voici la feuille de route logique :
+
+Étape A : Le Parsing de la Base de Données (dans le constructeur) Actuellement, tu affiches juste les lignes. Il faut maintenant les "comprendre".
+
+Dans ta boucle de lecture de data.csv, tu dois découper chaque ligne en deux parties (avant et après la virgule ,).
+Tu dois stocker ces infos dans ta _map.
+Réflexion importante : Dans ton .hpp, ta map est std::map<int, double>. Or, les dates sont au format "YYYY-MM-DD".
+Soit tu convertis la date en int (ex: 20110103) pour la stocker.
+Soit tu changes ta map en std::map<std::string, double> (les strings au format ISO se trient très bien alphabétiquement, donc "2011-01-03" < "2011-01-04" fonctionne).
+Étape B : Le Parsing de l'Input Une fois ta base chargée en mémoire, tu t'attaques au fichier d'entrée.
+
+Le séparateur est différent ici (| au lieu de ,).
+Tu dois gérer les erreurs demandées par le sujet (valeur négative, valeur > 1000, format de date invalide).
+Étape C : La Logique de Recherche ("La date la plus proche") C'est le cœur algorithmique de l'exercice. Pour une date donnée dans l'input, tu dois chercher dans ta map.
+
+Si la date existe : tu prends le taux.
+Si elle n'existe pas : tu dois trouver la date inférieure la plus proche.
+Indice : Regarde du côté des méthodes lower_bound ou upper_bound de la classe std::map. C'est fait exactement pour ça.
+Bon courage ! Commence par essayer de remplir ta map correctement depuis le CSV.
