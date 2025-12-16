@@ -31,7 +31,7 @@ BitcoinExchange::BitcoinExchange() {
 		}
 	}
 	if (input.bad()) {
-		throw std::runtime_error("Error: I/O error while reading data.csv");
+		throw std::runtime_error("Error: while reading data.csv");
 	}
 	if(_map.empty())
 		throw std::runtime_error("Error: data.csv is empty or invalid");	
@@ -65,46 +65,80 @@ void BitcoinExchange::run(std::string filename) {
 		if(line.empty() || line == "date | value")
 			continue;
 		std::size_t pos = line.find('|');
-		if (pos != 11)
+		if (pos == std::string::npos || line.length() < 13 || pos != 11 || line[pos - 1] != ' ' || line[pos + 1] != ' ') {
+			std::cerr << "Error: bad input => " << line << std::endl;
 			continue;
+		}
 
 		std::string date = line.substr(0, pos - 1);
-		if(date[4] != '-' || date[7] != '-' )
+		if(date[4] != '-' || date[7] != '-' ){
+			std::cerr << "Error: bad input => " << line << std::endl;
 			continue;
+		}
 			
 		std::string strYear = date.substr(0, 4);
-		std::string strMounth = date.substr(5, 2);
+		std::string strMonth = date.substr(5, 2);
 		std::string strDay = date.substr(8, 2);
 
 
 		int day;
-		int mount;
+		int month;
 		int year;
 
-		if(!strCheckDay(strDay, day)) continue;
-		if(!strCheckMounth(strMounth, mount)) continue;
-		if(!strCheckYear(strYear, year, day, mount)) continue;
-
+		if(!strCheckDay(strDay, day)) {
+			std::cerr << "Error: bad input => " << date << std::endl;
+			continue;
+		}
+		if(!strCheckMonth(strMonth, month)) {
+			std::cerr << "Error: bad input => " << date << std::endl;
+			continue;
+		}
+		if(!strCheckYear(strYear, year, day, month)) {
+			std::cerr << "Error: bad input => " << date << std::endl;
+			continue;
+		}
 
 
 
 
 		std::string value = line.substr(pos + 1);
-		//std::cout << "line = " << line << std::endl;
 		
 		double quantity;
 		char *end;
 		quantity = std::strtod(value.c_str(), &end);
+		if(value.c_str() == end) {
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue;
+		}
+
 		while(end && std::isspace(*end)) {end++;}
-		if(*end != '\0' || end == value.c_str())
+		if(*end != '\0') {
+			std::cerr << "Error: bad input => " << date << std::endl;
 			continue;
-		if(quantity < 0 || quantity > 1000)
+		}
+		if(quantity < 0) {
+			std::cerr << "Error: not a positive number."<< std::endl; 
 			continue;
+		}
+		if(quantity > 1000) {
+			std::cerr << "Error: too large a number." << std::endl; 
+			continue;
+		}
 		
+		
+		std::map<std::string, double>::iterator it = _map.lower_bound(date);
+		
+		if (it == _map.begin() && it->first != date) {
+			std::cerr << "Error: Date too early => " << date << std::endl;
+			continue;
+		}
+		if (it == _map.end() || it->first != date)	it--;
+
 		std::cout	<< date << " => "
 					<< quantity << " = "
-					<< "calcule"
+					<< it->second * quantity
 					<< std::endl;
+
 
 	}
 }
@@ -143,7 +177,7 @@ bool BitcoinExchange::strCheckYear(std::string const& annee, int& out, int const
     return true;
 }
 
-bool BitcoinExchange::strCheckMounth(std::string const& m, int& out) {
+bool BitcoinExchange::strCheckMonth(std::string const& m, int& out) {
 	char *end;
 	errno = 0;
 

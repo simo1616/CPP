@@ -2,7 +2,7 @@ NAME = btc
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-DBGFLAGS = -g -std=c++98
+DBGFLAGS = -g -O0 -fno-inline -Wall -Wextra -Werror -std=c++98
 
 SRCS = main.cpp BitcoinExchange.cpp
 

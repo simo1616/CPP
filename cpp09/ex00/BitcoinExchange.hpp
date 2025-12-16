@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
 #include <map>
 #include <stdexcept>
@@ -20,7 +19,7 @@ class BitcoinExchange {
 		void run(std::string filename);
 		bool CheckBisex(int annee);
 		bool strCheckYear(std::string const& annee, int& out, int const d, int const m);
-		bool strCheckMounth(std::string const& m, int& out);
+		bool strCheckMonth(std::string const& m, int& out);
 		bool strCheckDay(std::string const& day, int& out);
 		~BitcoinExchange();
 

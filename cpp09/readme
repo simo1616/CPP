@@ -91,6 +91,18 @@ Error: not a positive number.
 Error: bad input => 2001-42-42
 2012-01-11 => 1 = 7.1
 Error: too large a number.
+
+╭─simo161@pop-os ~/Documents/CPPGIT/cpp09/ex00 ‹main●› 
+╰─$ ./btc input.txt
+2011-01-03 => 3 = 0.9
+2011-01-03 => 2 = 0.6
+2011-01-03 => 1 = 0.3
+2011-01-03 => 1.2 = 0.36
+2011-01-09 => 1 = 0.32
+Error: not a positive number.
+Error: bad input => 2001-42-42
+2012-01-11 => 1 = 7.1
+Error: too large a number.
 ```
 
 ---
@@ -136,3 +148,84 @@ Si la date existe : tu prends le taux.
 Si elle n'existe pas : tu dois trouver la date inférieure la plus proche.
 Indice : Regarde du côté des méthodes lower_bound ou upper_bound de la classe std::map. C'est fait exactement pour ça.
 Bon courage ! Commence par essayer de remplir ta map correctement depuis le CSV.
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+C'est une excellente question. Pour réussir cette partie, il faut voir le fichier d'entrée (input.txt) comme une série de tests que ton programme doit passer sans planter, en étant très strict sur les règles.
+
+Voici une approche pédagogique découpée en 3 couches de validation successives. Une ligne est considérée "valide" uniquement si elle traverse ces trois couches.
+
+1. La Couche Structurelle (Le Format)
+C'est la première barrière. Le fichier d'entrée a un format différent de la base de données. Ici, le séparateur imposé est le caractère "pipe" (|).
+
+Ce que tu attends : YYYY-MM-DD | valeur
+Ce que tu dois vérifier :
+La ligne contient-elle le séparateur | ?
+Si non : C'est une erreur de format global.
+Message attendu : "Error: bad input => [la ligne fautive]"
+2. La Couche Temporelle (La Date)
+Une fois que tu as séparé la partie gauche (date) de la partie droite (valeur), tu dois inspecter la date.
+
+Ce que tu attends : Une date réelle au format ISO.
+Ce que tu dois vérifier :
+Syntaxe : Est-ce que ça ressemble à XXXX-XX-XX ? (Longueur, position des tirets).
+Logique :
+L'année est-elle cohérente ?
+Le mois est-il entre 01 et 12 ?
+Le jour est-il entre 01 et 31 ? (Idéalement, vérifier la cohérence jour/mois, ex: pas de 30 février, mais une vérification 1-31 est souvent suffisante pour l'exercice si elle est robuste).
+Si la date est invalide (ex: "2011-13-01" ou "2011-01-32") : Rejet.
+Message attendu : "Error: bad input => [la date fautive]"
+3. La Couche "Métier" (La Valeur)
+C'est ici que les règles sont spécifiques au sujet (différentes de data.csv). Le sujet impose des limites strictes pour l'utilisateur.
+
+Ce que tu attends : Un nombre flottant (float/double).
+Ce que tu dois vérifier :
+Est-ce un nombre ? (Pas de lettres, pas vide).
+Est-il positif ? Le sujet interdit les nombres négatifs.
+Message attendu : "Error: not a positive number."
+Est-il trop grand ? Le sujet interdit les nombres supérieurs à 1000.
+Message attendu : "Error: too large a number."
+Résumé de l'algorithme à appliquer (La "Moulinette")
+Pour chaque ligne lue dans input.txt (via ta fonction run), tu dois suivre ce diagramme mental :
+
+Lire la ligne.
+Chercher le |.
+Pas trouvé ? -> std::cout << "Error: bad input..." -> continue (ligne suivante).
+Extraire la date (gauche) et la valeur (droite).
+Valider la Date.
+Invalide ? -> std::cout << "Error: bad input..." -> continue.
+Convertir et Valider la Valeur.
+Négatif ? -> std::cout << "Error: not a positive number" -> continue.
+> 1000 ? -> std::cout << "Error: too large a number" -> continue.
+Pas un nombre ? -> std::cout << "Error: bad input..." -> continue.
+Si tout est OK (Le succès) :
+Tu cherches le taux dans ta _map (date exacte ou date inférieure la plus proche).
+Tu multiplies : Valeur Input * Taux Base de Données.
+Tu affiches le résultat formaté : Date => Valeur Input = Résultat.
+Point important sur la robustesse
+Contrairement au constructeur où une erreur critique arrêtait tout (throw), ici, une erreur sur une ligne ne doit pas arrêter le programme. Tu affiches l'erreur pour cette ligne spécifique, et tu passes immédiatement à la ligne suivante.
+
+
+
+test 
+2011-01-03|3
+2011-01-03 |3
+2011-01-03| 3
+2011-01-03 | 
+2011-01-03 | abc
+2011-01-03 | 1000
+2011-01-03 | 1001
+2009-01-01 | 1
+2024-02-29 | 1
+2023-02-29 | 1
+2011-04-31 | 1
+2011-02-30 | 1
+2011-13-01 | 1
+2011-00-01 | 1
+2011-01-32 | 1
+2011-01-00 | 1
+2011/01/03 | 1
+| 1

@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "Build C++ Project",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-g",
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "-std=c++98",
+                "${workspaceFolder}/*.cpp",
+                "-o",
+                "${workspaceFolder}/btc"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Compile tous les fichiers .cpp en un exécutable 'btc'"
+        }
+    ]
+}
