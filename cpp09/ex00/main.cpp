@@ -3,7 +3,7 @@
 int main(int ac, char **av)
 {
 	if(ac != 2) {
-		std::cerr << "Error: could not open file.\n";
+		std::cerr << ERR_FILE_OPEN << std::endl;
 		return 1;
 	}
 	(void)av;

@@ -6,7 +6,7 @@ BitcoinExchange::BitcoinExchange() {
 	
 	std::ifstream input(filename.c_str());
 	if(!input.is_open()) {
-		throw std::runtime_error("Error: could not open data.csv");
+		throw std::runtime_error(ERR_DATA_OPEN);
 	}
 	if(std::getline(input, line)) {
 		while(std::getline(input, line)) {
@@ -31,11 +31,12 @@ BitcoinExchange::BitcoinExchange() {
 		}
 	}
 	if (input.bad()) {
-		throw std::runtime_error("Error: while reading data.csv");
+		throw std::runtime_error(ERR_DATA_READ);
 	}
 	if(_map.empty())
-		throw std::runtime_error("Error: data.csv is empty or invalid");	
+		throw std::runtime_error(ERR_DATA_EMPTY);	
 }
+
 BitcoinExchange::BitcoinExchange(BitcoinExchange const& other)
 :_map(other._map) {}
 BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const& other) {
@@ -44,103 +45,80 @@ BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const& other) {
 	return *this;
 }
 
-void BitcoinExchange::display_map() const{
-
-	std::map<std::string, double>::const_iterator it;
-	std::cout 	<< "\n\n------- data in map -------\n" << std::endl;
-	for (it = _map.begin(); it != _map.end(); ++it) {
-		std::cout 	<< "Date: " << it->first 
-					<<  " | Price: " << it->second << std::endl;
-	}
-}
-
 void BitcoinExchange::run(std::string filename) {
 	std::ifstream input(filename.c_str());
 	if (!input.is_open()) {
-		std::cerr << "Error: could not open file." << std::endl;
+		std::cerr << ERR_FILE_OPEN << std::endl;
 		return;
 	}
 	std::string line;
 	while (std::getline(input, line)) {
-		if(line.empty() || line == "date | value")
-			continue;
-		std::size_t pos = line.find('|');
-		if (pos == std::string::npos || line.length() < 13 || pos != 11 || line[pos - 1] != ' ' || line[pos + 1] != ' ') {
-			std::cerr << "Error: bad input => " << line << std::endl;
-			continue;
+		try {
+			processLine(line);
 		}
-
-		std::string date = line.substr(0, pos - 1);
-		if(date[4] != '-' || date[7] != '-' ){
-			std::cerr << "Error: bad input => " << line << std::endl;
-			continue;
+		catch (const std::exception &e) {
+			std::cerr << e.what() << std::endl;
 		}
-			
-		std::string strYear = date.substr(0, 4);
-		std::string strMonth = date.substr(5, 2);
-		std::string strDay = date.substr(8, 2);
-
-
-		int day;
-		int month;
-		int year;
-
-		if(!strCheckDay(strDay, day)) {
-			std::cerr << "Error: bad input => " << date << std::endl;
-			continue;
-		}
-		if(!strCheckMonth(strMonth, month)) {
-			std::cerr << "Error: bad input => " << date << std::endl;
-			continue;
-		}
-		if(!strCheckYear(strYear, year, day, month)) {
-			std::cerr << "Error: bad input => " << date << std::endl;
-			continue;
-		}
-
-
-
-
-		std::string value = line.substr(pos + 1);
-		
-		double quantity;
-		char *end;
-		quantity = std::strtod(value.c_str(), &end);
-		if(value.c_str() == end) {
-			std::cerr << "Error: bad input => " << line << std::endl;
-			continue;
-		}
-
-		while(end && std::isspace(*end)) {end++;}
-		if(*end != '\0') {
-			std::cerr << "Error: bad input => " << date << std::endl;
-			continue;
-		}
-		if(quantity < 0) {
-			std::cerr << "Error: not a positive number."<< std::endl; 
-			continue;
-		}
-		if(quantity > 1000) {
-			std::cerr << "Error: too large a number." << std::endl; 
-			continue;
-		}
-		
-		
-		std::map<std::string, double>::iterator it = _map.lower_bound(date);
-		
-		if (it == _map.begin() && it->first != date) {
-			std::cerr << "Error: Date too early => " << date << std::endl;
-			continue;
-		}
-		if (it == _map.end() || it->first != date)	it--;
-
-		std::cout	<< date << " => "
-					<< quantity << " = "
-					<< it->second * quantity
-					<< std::endl;
-
-
 	}
+
+}
+
+void BitcoinExchange::processLine(std::string const& line) {
+	if(line.empty() || line == "date | value")
+		return;
+	std::size_t pos = line.find('|');
+	if (pos == std::string::npos 
+		|| line.length() < 13 
+		|| pos != 11 || line[pos - 1] != ' ' 
+		|| line[pos + 1] != ' ')
+		throw BadInputException(ERR_BAD_INPUT + line);
+
+	std::string date = line.substr(0, pos - 1);
+	if(date[4] != '-' || date[7] != '-' )
+		throw BadInputException(ERR_BAD_INPUT + line);
+		
+	std::string strYear = date.substr(0, 4);
+	std::string strMonth = date.substr(5, 2);
+	std::string strDay = date.substr(8, 2);
+
+	int day;
+	int month;
+	int year;
+
+	if(!strCheckDay(strDay, day))
+		throw BadInputException(ERR_BAD_INPUT + date);
+	if(!strCheckMonth(strMonth, month))
+		throw BadInputException(ERR_BAD_INPUT + date);
+	if(!strCheckYear(strYear, year, day, month))
+		throw BadInputException(ERR_BAD_INPUT + date);
+
+	std::string value = line.substr(pos + 1);
+	
+	double quantity;
+	char *end;
+	quantity = std::strtod(value.c_str(), &end);
+	if(value.c_str() == end)
+		throw BadInputException(ERR_BAD_INPUT + line);
+
+	while(end && std::isspace(*end)) {end++;}
+	if(*end != '\0')
+		throw BadInputException(ERR_BAD_INPUT + date);
+	if(quantity < 0)
+		throw BadInputException(ERR_NEGATIVE);
+	if(quantity > 1000)
+		throw BadInputException(ERR_TOO_LARGE);
+
+	std::map<std::string, double>::iterator it = _map.lower_bound(date);
+	
+	if (it == _map.begin() && it->first != date)
+		throw BadInputException(ERR_DATE_EARLY + date);
+
+	if (it == _map.end() || it->first != date)	it--;
+
+	std::cout	<< date << " => "
+				<< quantity << " = "
+				<< it->second * quantity
+				<< std::endl;
 }
 
 bool BitcoinExchange::CheckBisex(int annee) {
