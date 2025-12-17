@@ -237,12 +237,6 @@ test
 
 
 
-
-
-Voici la **traduction en français**, prête à être **copiée/collée dans un README** :
-
----
-
 # Chapitre VI
 
 ## Exercice 01 : Reverse Polish Notation
@@ -314,3 +308,107 @@ Si tu veux, je peux ensuite t’aider à :
 * choisir **le bon conteneur** (pile / stack logique)
 * expliquer la **RPN comme à un enfant**
 * te proposer un **algorithme clair étape par étape** conforme à 42
+
+
+
+
+**************************************************************************************************************************************************************************************************************************************************************************
+
+
+# Chapitre VII
+
+## Exercice 02 : PmergeMe
+
+**Exercice : 02**
+**Nom : PmergeMe**
+
+**Dossier de rendu :** `ex02/`
+**Fichiers à rendre :** `Makefile`, `main.cpp`, `PmergeMe.{cpp, hpp}`
+**Fonctions interdites :** Aucune
+
+---
+
+Vous devez créer un programme respectant les contraintes suivantes :
+
+* Le nom du programme doit être **`PmergeMe`**.
+* Le programme doit être capable de prendre en argument une **séquence d’entiers positifs**.
+* Le programme doit utiliser l’algorithme de **tri par insertion-fusion** (*merge-insert sort*) pour trier cette séquence d’entiers positifs.
+
+Pour être clair : **oui, vous devez utiliser l’algorithme de Ford-Johnson**.
+(Source : *The Art of Computer Programming*, Volume 3 — *Merge Insertion*, page 184.)
+
+* Si une erreur survient pendant l’exécution du programme, un **message d’erreur** doit être affiché sur la **sortie d’erreur standard**.
+
+Vous devez utiliser **au moins deux conteneurs STL différents** dans votre code pour valider cet exercice.
+Votre programme doit être capable de gérer **au moins 3000 entiers différents**.
+
+---
+
+## Recommandation importante
+
+Il est **fortement conseillé** d’implémenter votre algorithme **séparément pour chaque conteneur**, et donc **d’éviter l’utilisation d’une fonction générique**.
+
+---
+
+## Affichage attendu
+
+Les informations suivantes doivent être affichées **ligne par ligne** sur la sortie standard :
+
+* **Première ligne** : un texte explicite suivi de la **séquence d’entiers positifs non triée**.
+* **Deuxième ligne** : un texte explicite suivi de la **séquence d’entiers positifs triée**.
+* **Troisième ligne** : un message explicite indiquant le **temps d’exécution de l’algorithme**, en précisant le **premier conteneur** utilisé pour trier la séquence.
+* **Dernière ligne** : un message explicite indiquant le **temps d’exécution de l’algorithme**, en précisant le **second conteneur** utilisé pour trier la séquence.
+
+Le format d’affichage du temps est **libre**, mais la **précision choisie doit permettre de voir clairement la différence** entre les deux conteneurs utilisés.
+
+---
+
+## Exemples d’utilisation
+
+```
+$> ./PmergeMe 3 5 9 7 4
+Before: 3 5 9 7 4
+After: 3 4 5 7 9
+Time to process a range of 5 elements with std::[..] : 0.00031 us
+Time to process a range of 5 elements with std::[..] : 0.00014 us
+```
+
+```
+$> ./PmergeMe `shuf -i 1-100000 -n 3000 | tr "\n" " "`
+Before: 141 79 526 321 [...]
+After: 79 141 321 526 [...]
+Time to process a range of 3000 elements with std::[..] : 62.14389 us
+Time to process a range of 3000 elements with std::[..] : 69.27212 us
+```
+
+```
+$> ./PmergeMe "-1" "2"
+Error
+```
+
+### Pour les utilisateurs macOS :
+
+```
+$> ./PmergeMe `jot -r 3000 1 100000 | tr '\n' ' '`
+[...]
+```
+
+---
+
+⚠️ **Remarque importante**
+
+L’indication du temps est volontairement étrange dans ces exemples.
+Bien entendu, vous devez mesurer **le temps total de toutes vos opérations**, incluant **le tri** ainsi que **la gestion des données**.
+
+---
+
+⚠️ **Avertissement**
+
+* Le(s) conteneur(s) utilisé(s) dans les exercices précédents sont **interdits ici**.
+* La gestion des erreurs liées aux **doublons** est laissée à votre **discrétion**.
+
+
+
+
+**************************************************************************************************************************************************************************************************************************************************************************
+
