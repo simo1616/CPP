@@ -229,3 +229,88 @@ test
 2011-01-00 | 1
 2011/01/03 | 1
 | 1
+
+
+
+
+**************************************************************************************************************************************************************************************************************************************************************************
+
+
+
+
+
+Voici la **traduction en français**, prête à être **copiée/collée dans un README** :
+
+---
+
+# Chapitre VI
+
+## Exercice 01 : Reverse Polish Notation
+
+**Exercice : 01**
+**Nom : RPN**
+
+**Dossier de rendu :** `ex01/`
+**Fichiers à rendre :** `Makefile`, `main.cpp`, `RPN.{cpp, hpp}`
+**Fonctions interdites :** Aucune
+
+---
+
+Vous devez créer un programme respectant les contraintes suivantes :
+
+* Le nom du programme doit être **`RPN`**.
+* Le programme doit prendre en argument une **expression mathématique en notation polonaise inversée** (Reverse Polish Notation).
+* Les nombres utilisés dans l’expression et passés en argument seront **toujours inférieurs à 10**.
+
+  * Cette contrainte ne s’applique **ni aux calculs intermédiaires ni au résultat final**.
+* Le programme doit analyser cette expression et afficher le **résultat correct sur la sortie standard**.
+* Si une erreur survient durant l’exécution, un **message d’erreur** doit être affiché sur la **sortie d’erreur standard**.
+* Le programme doit être capable de gérer les opérations avec les tokens suivants :
+
+  ```
+  +  -  /  *
+  ```
+
+Vous devez utiliser **au moins un conteneur STL** dans votre code pour valider cet exercice.
+
+---
+
+## Restrictions
+
+* Vous **n’avez pas besoin** de gérer :
+
+  * les parenthèses
+  * les nombres décimaux
+
+---
+
+## Exemples d’utilisation
+
+```
+$> ./RPN "8 9 * 9 - 9 - 9 - 4 - 1 +"
+42
+
+$> ./RPN "7 7 * 7 -"
+42
+
+$> ./RPN "1 2 * 2 / 2 * 2 4 - +"
+0
+
+$> ./RPN "(1 + 1)"
+Error
+```
+
+---
+
+⚠️ **Avertissement**
+
+* Le(s) conteneur(s) utilisé(s) dans l’exercice précédent sont **interdits** ici.
+* Le(s) conteneur(s) utilisé(s) pour valider cet exercice **ne pourront plus être utilisés pour le reste du module**.
+
+---
+
+Si tu veux, je peux ensuite t’aider à :
+
+* choisir **le bon conteneur** (pile / stack logique)
+* expliquer la **RPN comme à un enfant**
+* te proposer un **algorithme clair étape par étape** conforme à 42
