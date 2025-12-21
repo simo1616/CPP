@@ -3,7 +3,7 @@
 int main(int ac, char **av)
 {
 	if(ac < 2) {
-		std::cerr << "Error: please insert arguments ;)" << std::endl;
+		std::cerr << "Error" << std::endl;
 		return 1;
 	}
 	try {
@@ -18,7 +18,8 @@ int main(int ac, char **av)
 		
 	}
 	catch (std::runtime_error &e) {
-		std::cout << e.what() << std::endl;
+		std::cerr << "Error" << std::endl;
+		return 1;
 	}
 
 	

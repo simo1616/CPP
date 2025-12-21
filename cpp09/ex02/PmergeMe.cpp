@@ -14,21 +14,21 @@ PmergeMe::PmergeMe(int ac, char **av) :_timeVec(0), _timeDec(0){
 		errno = 0;
 
 		long vec = strtol(av[i], &end, 10);
-		unsigned int n = static_cast<unsigned int>(vec);
-		if	(*end != '\0' || end == av[i] 
-			|| vec < 0 || errno == ERANGE
-			|| vec > INT_MAX
-			|| !set.insert(n).second ) {
-			std::string str = av[i];
-			throw std::runtime_error("Error: invalid vec = \"" + str + "\"");
+		if (*end != '\0' || end == av[i] 
+			|| vec <= 0 || errno == ERANGE 
+			|| vec > INT_MAX) {
+			throw std::runtime_error("Error");
 		}
+		unsigned int n = static_cast<unsigned int>(vec);
+		if (!set.insert(n).second)
+			throw std::runtime_error("Error");
 		_vec.push_back(n);
 		_dec.push_back(n);
 	}
 }
 
 PmergeMe::PmergeMe(PmergeMe const &other) 
-:_vec(other._vec), _dec(other._dec){}
+:_vec(other._vec), _dec(other._dec), _timeVec(other._timeVec), _timeDec(other._timeDec){}
 
 PmergeMe& PmergeMe::operator=(PmergeMe const &other) {
 	if(this != &other) {
