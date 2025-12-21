@@ -412,3 +412,147 @@ Bien entendu, vous devez mesurer **le temps total de toutes vos opérations**, i
 
 **************************************************************************************************************************************************************************************************************************************************************************
 
+
+
+
+
+## 🎯 Prompt FINAL – Guide PDF illustré du tri Ford–Johnson
+
+> Tu es à la fois :
+>
+> * un **expert en algorithmique**
+> * un **excellent pédagogue**
+> * un **illustrateur technique**
+>
+> Ta mission est de produire un **guide pédagogique complet en PDF** expliquant **le tri Ford–Johnson (Merge-Insertion Sort)**, destiné à un étudiant qui veut **comprendre pour implémenter l’algorithme lui-même**.
+>
+> ---
+>
+> ## 📘 Format attendu
+>
+> * **Format final : PDF**
+> * Style : **cours illustré**
+> * Ton : clair, progressif, sans jargon académique inutile
+> * Zéro démonstration mathématique lourde
+>
+> ---
+>
+> ## 🧠 Objectif pédagogique
+>
+> À la fin du document, le lecteur doit être capable de :
+>
+> * Visualiser mentalement chaque étape de Ford–Johnson
+> * Rejouer l’algorithme sur papier
+> * L’implémenter seul en code (C / C++)
+>
+> ---
+>
+> ## 📂 Structure obligatoire du document
+>
+> ### 1️⃣ Introduction intuitive
+>
+> * Pourquoi Ford–Johnson existe
+> * Quel problème il résout
+> * Différence avec merge sort et insertion sort
+>
+> ---
+>
+> ### 2️⃣ Exemple fil rouge
+>
+> Utiliser **un seul exemple complet**, conservé tout au long du guide :
+>
+> ```
+> 11 2 17 0 16 8 6 15 10 3 21 1 18 9 14 19 12 5 4 20 13 7
+> ```
+>
+> ---
+>
+> ### 3️⃣ Étapes détaillées avec dessins (OBLIGATOIRE)
+>
+> Pour **chaque étape**, fournir :
+>
+> * Une explication simple
+> * **Un ou plusieurs dessins générés**
+> * Une légende claire
+>
+> #### Étapes à illustrer :
+>
+> 1. Séquence initiale
+> 2. Découpage en paires
+> 3. Tri interne de chaque paire
+> 4. Séparation en `smalls` et `bigs`
+> 5. Tri récursif des `bigs`
+> 6. Insertion progressive des `smalls`
+>
+> 🔴 **Style des dessins requis** :
+>
+> * Type schéma au tableau / craie / minimaliste
+> * Encadrés, flèches, groupes visuels
+> * Lisible, contrasté, pédagogique
+> * Similaire à des schémas d’algorithmes faits à la main
+>
+> Exemple visuel attendu :
+>
+> ```
+> Recursion level: 1
+>
+> Original sequence:
+> [11 2 17 0 16 8 6 15 10 3 21 1 18 9 14 19 12 5 4 20 13 7]
+>
+> Divide into pairs:
+> [11 2] [17 0] [16 8] [6 15] [10 3] ...
+>
+> Sorted pairs:
+> [2 11] [0 17] [8 16] [6 15] [3 10] ...
+> ```
+>
+> ---
+>
+> ### 4️⃣ Focus implémentation (sans code final)
+>
+> * Traduction de chaque étape en logique algorithmique
+> * Découpage en fonctions
+> * Gestion des cas particuliers (taille impaire, récursion)
+> * Erreurs classiques à éviter
+>
+> ---
+>
+> ### 5️⃣ Résumé global visuel
+>
+> * Diagramme final montrant le flux complet de l’algorithme
+> * Récapitulatif en une page
+>
+> ---
+>
+> ## 🧾 Contraintes importantes
+>
+> * Pas de pseudo-science
+> * Pas de raccourcis flous
+> * Chaque dessin doit correspondre à une étape réelle
+> * Le PDF doit être compréhensible sans ressources externes
+>
+> ---
+>
+> 🎯 **Résultat attendu**
+>
+> Un **PDF pédagogique illustré**, clair et structuré, que je peux :
+>
+> * Lire comme un cours
+> * Utiliser comme référence pour coder
+> * Consulter plus tard pour me rappeler chaque étape
+>
+> Prends ton temps et privilégie la clarté visuelle.
+
+---
+
+### 🔥 Bonus (si l’IA accepte les options)
+
+Tu peux ajouter à la fin du prompt :
+
+> Si possible, génère le PDF avec :
+>
+> * une table des matières
+> * des titres clairs
+> * une pagination
+> * un style sobre (fond clair, schémas contrastés)
+

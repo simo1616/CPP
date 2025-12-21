@@ -8,8 +8,13 @@ int main(int ac, char **av)
 	}
 	try {
 		PmergeMe Pm(ac, av);
+		Pm.displayVec("Before:");
 		Pm.sortVec();
-		Pm.displayVec("begin :");
+		Pm.sortDec();
+		Pm.displayVec("After:");
+		Pm.timeToProcessVec();
+		Pm.timeToProcessDec();
+
 		
 	}
 	catch (std::runtime_error &e) {
