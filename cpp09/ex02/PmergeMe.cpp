@@ -17,7 +17,7 @@ PmergeMe::PmergeMe(int ac, char **av) :_timeVec(0), _timeDec(0){
 		unsigned int n = static_cast<unsigned int>(vec);
 		if	(*end != '\0' || end == av[i] 
 			|| vec < 0 || errno == ERANGE
-			|| vec > UINT_MAX
+			|| vec > INT_MAX
 			|| !set.insert(n).second ) {
 			std::string str = av[i];
 			throw std::runtime_error("Error: invalid vec = \"" + str + "\"");
